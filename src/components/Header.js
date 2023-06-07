@@ -23,6 +23,7 @@ function Header({userinfo}) {
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [isLargerThanMobile] = useMediaQuery("(min-width: 650px)");
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -62,7 +63,7 @@ function Header({userinfo}) {
             opacity={0.9}
             transition="background-color 0.3s ease"
             py="10px"
-            maxW="7xl"
+            maxW="100%"
             align="center"
             zIndex="2"
         >
@@ -130,6 +131,7 @@ function Header({userinfo}) {
                             minWidth="auto"
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
+                            onClick={() => setIsSubMenuOpen(true)}
                         >
                             <Link to="/gallery">
                                 <Text
@@ -142,9 +144,8 @@ function Header({userinfo}) {
                             </Link>
                         </MenuButton>
                         <MenuList
-                            display={isHovering ? "block" : "none"}
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
+                            display={isHovering || isSubMenuOpen ? "block" : "none"}
+                            onClick={() => setIsSubMenuOpen(true)}
                         >
                             <MenuItem as={Link} to="/gallery" target="_blank" rel="noopener noreferrer">
                                 Gallery List
@@ -279,9 +280,10 @@ function Header({userinfo}) {
                                 </Link>
                             </MenuButton>
                             <MenuList
-                                display={isHovering ? "block" : "none"}
+                                display={isHovering || isSubMenuOpen ? "block" : "none"}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
+                                onClick={() => setIsSubMenuOpen(true)}
                             >
                                 <MenuItem as={Link} to="/" target="_blank" rel="noopener noreferrer">
                                     Edit Profile

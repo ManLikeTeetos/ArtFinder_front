@@ -11,6 +11,7 @@ function Gallery() {
     const location = useLocation();
     const id = location.state.id;
     const [data, setData] = useState([]);
+
     useEffect(() => {
         async function fetchGallery() {
             //let item = {id}

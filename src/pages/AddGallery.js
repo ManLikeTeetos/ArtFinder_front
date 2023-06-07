@@ -16,10 +16,10 @@ import Header from "../components/Header";
 
 function AddGallery() {
 
-    const userinfo   = localStorage.getItem('userinfo');
+    const userinfo = localStorage.getItem('userinfo');
     let username = "";
     const [agentgallery, setAgentgallery] = useState([]);
-    if(userinfo){
+    if (userinfo) {
         const userInfoObj = JSON.parse(userinfo);
         username = userInfoObj.username;
     }
@@ -31,8 +31,8 @@ function AddGallery() {
         location: "",
         requirements: "",
         userid: username,
-        display:"",
-        banner:"",
+        display: "",
+        banner: "",
         images: [],
     });
     const [displayImage, setDisplayImage] = useState(null);
@@ -48,53 +48,57 @@ function AddGallery() {
 
     const handleDisplayChange = (event) => {
         const dispfile = event.target.files[0];
-        setData({ ...data, display: dispfile });
+        setData({...data, display: dispfile});
     };
+
     const handleBannerChange = (event) => {
         const bannerfile = event.target.files[0];
-        setData({ ...data, banner: bannerfile });
+        setData({...data, banner: bannerfile});
     };
+
     const handleImagesChange = (event) => {
         const files = event.target.files;
-        setData({ ...data, images: files });
+        setData({...data, images: files});
     };
+
     const handleDeleteImage = async (image, id) => {
         // Handle image deletion
-        alert(image);
-        alert(id);
+        const apiUrl = "http://localhost:8000/api/deleteImage";
+        const imageParam = encodeURIComponent(image);
+        const idParam = encodeURIComponent(id);
 
+        const url = `${apiUrl}?image=${imageParam}&id=${idParam}`;
 
-            const apiUrl = "http://localhost:8000/api/deleteImage";
-            const imageParam = encodeURIComponent(image);
-            const idParam = encodeURIComponent(id);
+        const result = await fetch(url, {
+            method: 'GET',
+            // body: JSON.stringify(userid),
+            headers: {
+                "Content-Type": 'application/json',
+                "Accept": 'application/json'
+            }
+        });
 
-            const url = `${apiUrl}?image=${imageParam}&id=${idParam}`;
+        // console.log("200", res);
+        if (result.ok) {
+            const res = await result.json();
+            //console.log(responseData);
+            let title = res.error ? res.error : "Success";
+            let status = res.error ? "error" : "success";
 
-            const result = await fetch(url, {
-                method: 'GET',
-                // body: JSON.stringify(userid),
-                headers: {
-                    "Content-Type": 'application/json',
-                    "Accept": 'application/json'
-                }
+            toast({
+                title: title,
+                status: status,
+                duration: 3000,
+                isClosable: true,
             });
 
-           // console.log("200", res);
-            if (result.ok) {
-                const res = await result.json();
-                //console.log(responseData);
-                let title = res.error ? res.error : "Success";
-                let status = res.error ? "error" : "success";
-
-                toast({
-                    title: title,
-                    status: status,
-                    duration: 3000,
-                    isClosable: true,
-                });
-            } else {
-                throw new Error('Form submission failed');
-            }
+            // Reload the page with the current ID in the query string
+            const currentURL = new URL(window.location.href);
+            currentURL.searchParams.set("id", id);
+            window.location.href = currentURL.href;
+        } else {
+            throw new Error('Form submission failed');
+        }
 
 
     };
@@ -103,7 +107,7 @@ function AddGallery() {
         // Handle image update
     };
 
-    ///populate field for update
+    //populate field for update after a gallery is chosen
     const handleSelectChange = (event) => {
         const selectedGalleryName = event.target.value;
         const selectedGallery = agentgallery.find(
@@ -132,8 +136,8 @@ function AddGallery() {
                 requirements: "",
                 id: "",
                 userid: username,
-                display:"",
-                banner:"",
+                display: "",
+                banner: "",
                 images: [],
             });
         }
@@ -144,15 +148,15 @@ function AddGallery() {
             let res = "";
             const result = await fetch(`http://localhost:8000/api/getGalleryAgent?username=${username}`, {
                 method: 'GET',
-               // body: JSON.stringify(userid),
+                // body: JSON.stringify(userid),
                 headers: {
                     "Content-Type": 'application/json',
                     "Accept": 'application/json'
                 }
             });
             res = await result.json()
-            console.log("200",res);
-             if (res[0]) {
+            console.log("200", res);
+            if (res[0]) {
                 setAgentgallery(res);
             }
         }
@@ -160,14 +164,56 @@ function AddGallery() {
         fetchGalleryAgent();
     }, [username]);
 
+    //on update, it refreshes entire page
+    useEffect(() => {
+        // Retrieve the id from the query string
+        const params = new URLSearchParams(window.location.search);
+        const selectedId = parseInt(params.get("id"));
+        // alert(selectedId);
 
+        //console.log(25, agentgallery)
+        if (selectedId) {
+            // Find the selected gallery by id
+            const selectedGallery = agentgallery.find(
+                (gallery) => gallery.id === selectedId
+            );
+            // console.log(27, selectedGallery);
+            if (selectedGallery) {
+                setData({
+                    name: selectedGallery.name,
+                    about: selectedGallery.about,
+                    opening: selectedGallery.opening,
+                    location: selectedGallery.location,
+                    requirements: selectedGallery.requirements,
+                    userid: selectedGallery.userid,
+                    id: selectedGallery.id,
+                });
+                setBannerImage(selectedGallery.banner);
+                setDisplayImage(selectedGallery.display);
+                setGalleryImages(selectedGallery.images);
+            } else {
+                setData({
+                    name: "",
+                    about: "",
+                    opening: "",
+                    location: "",
+                    requirements: "",
+                    id: "",
+                    userid: username,
+                    display: "",
+                    banner: "",
+                    images: [],
+                });
+            }
+        }
+    }, [agentgallery]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         // do something with form data, e.g. submit to server
         const formData = new FormData();
-        for ( var key in data ) {
-            if ( key === 'images' ) {
+        for (var key in data) {
+            if (key === 'images') {
                 // Iterate through each image in the array and append it to formData
                 for (var i = 0; i < data[key].length; i++) {
                     formData.append(key + '[' + i + ']', data[key][i]);
@@ -178,7 +224,7 @@ function AddGallery() {
             }
         }
         console.log(33, data);
-        console.log(34,formData);
+        console.log(34, formData);
         try {
 
 
@@ -194,6 +240,9 @@ function AddGallery() {
                     duration: 3000,
                     isClosable: true,
                 });
+                const currentURL = new URL(window.location.href);
+                currentURL.searchParams.set("id", data.id);
+                window.location.href = currentURL.href;
             } else {
                 throw new Error('Form submission failed');
             }
@@ -241,7 +290,7 @@ function AddGallery() {
 
                 <Box w={{base: "100%", sm: "100%", md: "80%", lg: "60%"}}
                 >
-                    <form onSubmit={handleSubmit} >
+                    <form onSubmit={handleSubmit}>
                         <Select placeholder="Select a gallery"
                                 defaultValue=""
                                 mb={10}
@@ -311,9 +360,10 @@ function AddGallery() {
                             <FormControl>
                                 <FormLabel>Display Image:</FormLabel>
                                 {displayImage &&
-                                    <Box width="150px" height="150px" mb={10}>
-                                        <Image src={displayImage} alt="Display Image" objectFit="cover" width="100%" height="100%" />
-                                    </Box>
+                                <Box width="150px" height="150px" mb={10}>
+                                    <Image src={displayImage} alt="Display Image" objectFit="cover" width="100%"
+                                           height="100%"/>
+                                </Box>
                                 }
                                 <Input
                                     type="file"
@@ -324,9 +374,10 @@ function AddGallery() {
                             <FormControl>
                                 <FormLabel>Banner Image:</FormLabel>
                                 {bannerImage &&
-                                    <Box width="150px" height="150px" mb={10}>
-                                        <Image src={bannerImage} alt="Banner Image" objectFit="cover" width="100%" height="100%" />
-                                    </Box>
+                                <Box width="150px" height="150px" mb={10}>
+                                    <Image src={bannerImage} alt="Banner Image" objectFit="cover" width="100%"
+                                           height="100%"/>
+                                </Box>
                                 }
                                 <Input
                                     type="file"
@@ -340,12 +391,13 @@ function AddGallery() {
                                     {galleryImages.map((image, index) => (
                                         <Stack key={index} direction="row" alignItems="center">
                                             <Box width="150px" height="150px" mb={10}>
-                                                <Image src={image} alt={`Gallery Image ${index}`} objectFit="cover" width="100%" height="100%" />
+                                                <Image src={image} alt={`Gallery Image ${index}`} objectFit="cover"
+                                                       width="100%" height="100%"/>
                                             </Box>
                                             <Button
                                                 size="sm"
                                                 colorScheme="red"
-                                                onClick={() => handleDeleteImage(image,data.id)}
+                                                onClick={() => handleDeleteImage(image, data.id)}
                                             >
                                                 Delete
                                             </Button>
