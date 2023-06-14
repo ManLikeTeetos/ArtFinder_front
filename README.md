@@ -3,16 +3,16 @@
 ## Introduction
 Welcome to the Artfinder frontend repository! This repository contains the frontend codebase for Artfinder, a platform for art enthusiasts to discover and explore artwork from various artists.
 
-- [Deployed Site](https://www.artfinder.com)
-- [Final Project Blog Article](https://medium.com/@yourusername/artfinder-frontend-project-123456)
+- [Deployed Site](https://manliketeetos.github.io/ArtFinderLanding/)
+- [Final Project Blog Article](https://medium.com/@tolu.mastermindz/unveiling-the-artfinder-portfolio-project-a-solo-full-stack-development-journey-b562bab4f9f7)
 - Author: Your Name
-- LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/yourusername)
+- LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/ade-ojo-toluwanimi/)
 
 ## Installation
 To run the Artfinder frontend locally, follow these steps:
 
 1. Clone the repository:
-git clone https://github.com/yourusername/artfinder-frontend.git
+git clone https://github.com/ManLikeTeetos/artfinder-frontend.git
 
 2. Navigate to the project directory:
 3. Install the dependencies:
