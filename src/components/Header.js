@@ -263,10 +263,12 @@ function Header({userinfo}) {
                                 backgroundSize="cover"
                                 backgroundPosition="center"
                                 color="white"
+                                fontSize={{base: "12px", md: "14px", lg: "16px"}}
                                 _hover={{bg: 'brown.600'}}
                                 _active={{bg: 'brown.700'}}
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
+                                onClick={() => setIsSubMenuOpen(true)}
 
                             >
                                 <Link to="/">

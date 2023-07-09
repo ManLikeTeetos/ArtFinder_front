@@ -13,6 +13,8 @@ import {
 import DateTimePicker from "react-datetime-picker";
 import backgroundImage from "../images/Leonardo-Da-Vinci-Monna-Lisa.jpg";
 import Header from "../components/Header";
+import GoogleMaps from "../GoogleMap";
+
 
 function AddGallery() {
 
@@ -23,6 +25,8 @@ function AddGallery() {
         const userInfoObj = JSON.parse(userinfo);
         username = userInfoObj.username;
     }
+    const [locationCoords, setLocationCoords] = useState({ lat: 0, lng: 0 });
+
     const [data, setData] = useState({
         id: "",
         name: "",
@@ -45,6 +49,35 @@ function AddGallery() {
     const handleChange = (key, value) => {
         setData({...data, [key]: value})
     }
+    const handleLocationChange = (event) => {
+        setData({ ...data, location: event.target.value });
+    };
+
+    const handleLocationBlur = () => {
+        const address = data.location;
+        // Perform the necessary logic to retrieve the coordinates for the address
+        // and update the locationCoords state variable
+        // Example: Using the Google Geocoding API
+        const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+        const geocodeApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+            address
+        )}&key=${apiKey}`;
+
+        fetch(geocodeApiUrl)
+            .then((response) => response.json())
+            .then((mapres) => {
+                if (mapres.results.length > 0) {
+                    const location = mapres.results[0].geometry.location;
+                    setLocationCoords({ lat: location.lat, lng: location.lng });
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
+
+
+
 
     const handleDisplayChange = (event) => {
         const dispfile = event.target.files[0];
@@ -261,6 +294,7 @@ function AddGallery() {
 
     return (
         <>
+            <Header userinfo={userinfo}/>
             <Box w="100%" maxW="1900px" mx="auto" position="relative"
                  bg={`linear-gradient(
                     rgba(0, 0, 0, 0.5),
@@ -270,7 +304,6 @@ function AddGallery() {
                  backgroundPosition="center"
                  backgroundBlendMode="multiply"
                  height="500px">
-                <Header/>
                 {/*<Image src="https://picsum.photos/id/78/1200/400/?blur=4" alt="Hero Image" objectFit="cover" w="100%" h="400px" />*/}
                 <Box maxW="800px" mx="auto" px={6} py={24} position="absolute" bottom="0" left="0" right="0" zIndex="1">
                     <Heading as="h1" size="3xl" color="white" mb={4}
@@ -343,9 +376,13 @@ function AddGallery() {
                                 type="text"
                                 placeholder="Enter the gallery location"
                                 value={data.location}
-                                onChange={(event) => handleChange('location', event.target.value)}
+                                onChange={handleLocationChange}
+                                onBlur={handleLocationBlur}
                             />
                         </FormControl>
+                        <div style={{ position: 'relative', height: '400px', marginTop: '20px' }}>
+                            <GoogleMaps google={window.google} locationCoords={locationCoords} />
+                        </div>
 
                         <FormControl mt={4}>
                             <FormLabel>Requirements:</FormLabel>

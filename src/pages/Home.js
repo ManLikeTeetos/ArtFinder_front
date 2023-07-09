@@ -1,7 +1,7 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import { useNavigate } from 'react-router-dom';
 import Header from "../components/Header"
-import {Stack, Box, Heading, Text, Image, Grid, Flex, Button, useMediaQuery} from '@chakra-ui/react'
+import {Stack, Box, Heading, Text, Image, Grid, Flex, Button, useMediaQuery, FormLabel, Input, Center } from '@chakra-ui/react'
 import backgroundImage from "../images/Leonardo-Da-Vinci-Monna-Lisa.jpg";
 import btn_bg from "../images/wood.jpg";
 
@@ -11,34 +11,122 @@ function Home() {
     const [isMobile] = useMediaQuery('(max-width: 767px)');
     const navigate   = useNavigate();
     const userinfo   = localStorage.getItem('userinfo');
+    const [currentLocation, setCurrentLocation] = useState('');
+    const currentStateRef = useRef(currentLocation);
+    const [currentState, setCurrentState] = useState(currentLocation);
+    const handleStateChange = (event) => {
+        setCurrentState(event.target.value);
+    };
+
+    const handleStateBlur = () => {
+        currentStateRef.current = currentState;
+        if(currentStateRef.current.length > 0) {
+            fetchGalleryRef();
+        }
+    };
     let username = "";
     if(userinfo){
         const userInfoObj = JSON.parse(userinfo);
         username = userInfoObj.username;
     }
+    const fetchGalleryRef = async () => {
+        let res = '';
+
+        // Modify the API URL to include the location parameter
+        const result = await fetch(`http://localhost:8000/api/getGallery?location=${currentStateRef.current}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+        });
+
+        res = await result.json();
+
+        if (res[0]) {
+            setData(res);
+        } else {
+            alert(" Oops! No gallery or event found for this state. Keep exploring and check back soon! \n Don't worry, we're bringing you the best from your default location");
+        }
+    };
+
 
 
 
     useEffect(() => {
-        async function fetchGallery() {
-            let item = "";
-            let res = "";
-            const result = await fetch("http://localhost:8000/api/getGallery", {
-                method: 'GET',
-                //body: JSON.stringify(item),
-                headers: {
-                    "Content-Type": 'application/json',
-                    "Accept": 'application/json'
-                }
-            });
-            res = await result.json()
-            if (res[0]) {
-                setData(res);
+        const loadGoogleMapsScript = () => {
+            if (!window.google) {
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
+                script.async = true;
+                script.defer = true;
+                script.onload = fetchGallery;
+                document.head.appendChild(script);
+            } else {
+                fetchGallery();
             }
-        }
+        };
 
-        fetchGallery();
+        const fetchGallery = async () => {
+            let item = '';
+            let res = '';
+
+            // Get the user's current location using the Geolocation API
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
+
+                    // Use the Geocoding API to retrieve the state information
+                    const geocoder = new window.google.maps.Geocoder();
+                    const latLng = new window.google.maps.LatLng(latitude, longitude);
+
+                    geocoder.geocode({ location: latLng }, async (results, status) => {
+                        if (status === 'OK' && results.length > 0) {
+                            const addressComponents = results[0].address_components;
+
+                            // Find the state component in the address
+                            const stateComponent = addressComponents.find((component) =>
+                                component.types.includes('administrative_area_level_1')
+                            );
+
+                            const currentState = stateComponent ? stateComponent.long_name : '';
+                           // const currentState = "Ibadan";
+                            setCurrentLocation(currentState);
+
+                            // Modify the API URL to include the location parameter
+                            const result = await fetch(`http://localhost:8000/api/getGallery?location=${currentState}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    Accept: 'application/json',
+                                },
+                            });
+
+                            res = await result.json();
+
+                            if (res[0]) {
+                                setData(res);
+                            }
+                        }
+                    });
+                },
+                (error) => {
+                    console.error(error);
+                }
+            );
+        };
+
+        loadGoogleMapsScript();
+        return () => {
+            // Cleanup function
+            // Clear the Google Maps script when the component unmounts
+            const googleScript = document.getElementById("google-maps-script");
+            if (googleScript) {
+                googleScript.remove();
+            }
+        };
     }, []);
+
 
     //console.log(45, data);
 
@@ -48,7 +136,7 @@ function Home() {
     };
     const handleReadMore = (id) => {
         // Handle read more click event, e.g. open modal
-        // ...
+        navigate('/gallery', { state: { id } });
     };
 
     return (
@@ -87,6 +175,23 @@ function Home() {
                         Check out gallery close to your location
                     </Text>
                 </Flex>
+                <Center mt={4}>
+                    <Box width="200px">
+                        <Input
+                            id="stateInput"
+                            type="text"
+                            placeholder="Enter a different state"
+                            value={currentState}
+                            onChange={handleStateChange}
+                            onBlur={handleStateBlur}
+                            display="inline-block"
+                            width="100%"
+                            borderColor="brown"
+                            focusBorderColor="brown"
+                        />
+                    </Box>
+                </Center>
+
 
                 <Box py={10} mx={4} mt={10}>
                     {data.map((item) => (
@@ -131,6 +236,21 @@ function Home() {
                         Check out gallery close to your location
                     </Text>
                 </Flex>
+                <Center mt={4}>
+                    <Box width="200px">
+                        <FormLabel htmlFor="stateInput">{/* ... */}</FormLabel>
+                        <Input
+                            id="stateInput"
+                            type="text"
+                            placeholder="Enter a different state"
+                            value={currentState}
+                            onChange={handleStateChange}
+                            onBlur={handleStateBlur}
+                            borderColor="brown"
+                            focusBorderColor="brown"
+                        />
+                    </Box>
+                </Center>
                 <Box py={10} mx={20} mt={10}>
                     <Grid templateColumns="repeat(4, 1fr)" gap={6}>
                         {data.map((item) => (
@@ -165,14 +285,23 @@ function Home() {
                 </Box>
             </>
             }
-            <Flex justifyContent="center" flexDirection="column" alignItems="center" mt={100}>
-                <Heading as="h1" size="xl" textAlign="center">
-                    Event and Exhibitions happening around you
-                </Heading>
-                <Text fontSize="lg" textAlign="center" mt={2} mb={{ base: 9 }}>
-                    You might want to Art-tend them.
-                </Text>
-            </Flex>
+
+            {data.length === 0 ? (
+                <Flex justifyContent="center" flexDirection="column" alignItems="center" my={100}>
+                    <Heading as="h1" size="xl" textAlign="center">
+                        Oops! No gallery found for the selected state. You can try entering a different state to explore more galleries.
+                    </Heading>
+                </Flex>
+            ) : (
+                <Flex justifyContent="center" flexDirection="column" alignItems="center" mt={100}>
+                    <Heading as="h1" size="xl" textAlign="center">
+                        Event and Exhibitions happening around you
+                    </Heading>
+                    <Text fontSize="lg" textAlign="center" mt={2} mb={{ base: 9 }}>
+                        You might want to Art-tend them.
+                    </Text>
+                </Flex>
+            )}
             <Box>
                 {data.map((item, index) => (
                     <Box key={item.id} h={{ base: "auto", md: 400 }}>
@@ -209,7 +338,9 @@ function Home() {
                                 <Heading mb={5} fontSize={{ base: "24px", md: "30px" }}>
                                     {item.name}
                                 </Heading>
-                                <Text fontSize={{ base: "14px", md: "12px" }}>{item.about}</Text>
+                                <Text fontSize={{ base: "14px", md: "12px" }}>
+                                    {item.about.split(" ").slice(0, 50).join(" ")}{item.about.split(" ").length > 50 ? "..." : ""}
+                                </Text>
                                 <Button
                                     my={{ base: 5, md: 5 }}
                                     size="sm"
@@ -227,10 +358,6 @@ function Home() {
                     </Box>
                 ))}
             </Box>
-
-
-
-
         </>
     );
 }

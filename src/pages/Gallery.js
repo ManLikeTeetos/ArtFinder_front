@@ -2,15 +2,23 @@ import {useLocation} from 'react-router-dom';
 import Header from "../components/Header"
 import {Box, Button, Heading, Image, Stack, Text, UnorderedList, ListItem, SimpleGrid} from "@chakra-ui/react";
 import backgroundImage from "../images/Leonardo-Da-Vinci-Monna-Lisa.jpg";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import requireImage from "../images/requirement.jpg";
 import Masonry from 'react-masonry-css';
 
 
 function Gallery() {
     const location = useLocation();
+    const mapRef = useRef(null);
     const id = location.state.id;
     const [data, setData] = useState([]);
+    const [mapLoaded, setMapLoaded] = useState(false);
+    const userinfo   = localStorage.getItem('userinfo');
+    let username = "";
+    if(userinfo){
+        const userInfoObj = JSON.parse(userinfo);
+        username = userInfoObj.username;
+    }
 
     useEffect(() => {
         async function fetchGallery() {
@@ -31,8 +39,77 @@ function Gallery() {
         }
 
         fetchGallery();
+    }, [id]);
+
+
+    useEffect(() => {
+        let mapScriptLoaded = false; // Flag to track if the script has been loaded
+
+        const loadGoogleMapsScript = () => {
+            if (!mapScriptLoaded) {
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
+                script.async = true;
+                script.defer = true;
+                script.onload = initializeMap;
+                document.head.appendChild(script);
+                mapScriptLoaded = true; // Set the flag to true once the script is loaded
+            }
+        };
+
+        const initializeMap = () => {
+            setMapLoaded(true); // Set mapLoaded to true once the map script is loaded
+        };
+
+        loadGoogleMapsScript();
     }, []);
 
+    useEffect(() => {
+        if (mapLoaded && data.length > 0 && mapRef.current) {
+            const location = data[0].location;
+            const geocoder = new window.google.maps.Geocoder();
+            geocoder.geocode({ address: location }, (results, status) => {
+                if (status === 'OK' && results.length > 0) {
+                    const mapOptions = {
+                        center: results[0].geometry.location,
+                        zoom: 15,
+                    };
+                    const map = new window.google.maps.Map(mapRef.current, mapOptions);
+                    const marker = new window.google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location,
+                    });
+
+                    // Open new tab with Google Maps directions when clicking on the map
+                    // map.addListener('click', () => {
+                    //     if (navigator.geolocation) {
+                    //         navigator.geolocation.getCurrentPosition(
+                    //             (position) => {
+                    //                 const userLocation = new window.google.maps.LatLng({
+                    //                     lat: position.coords.latitude,
+                    //                     lng: position.coords.longitude,
+                    //                 });
+                    //                 const destination = encodeURIComponent(location);
+                    //                 const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation}&destination=${destination}`;
+                    //                 window.open(directionsUrl, '_blank');
+                    //             },
+                    //             (error) => {
+                    //                 console.error('Error getting user location:', error);
+                    //             }
+                    //         );
+                    //     }
+                    // });
+                }
+            });
+        }
+    }, [mapLoaded, data]);
+
+
+
+
+
+
+    //alert(mapLoaded)
     console.log(34, data);
     let gallery_name = 'Gallery';
     let images = [];
@@ -52,6 +129,7 @@ function Gallery() {
 
     return (
         <>
+            <Header userinfo={userinfo}/>
             <Box w="100%" maxW="1900px" mx="auto" position="relative"
                  bg={`linear-gradient(
                     rgba(0, 0, 0, 0.5),
@@ -63,7 +141,6 @@ function Gallery() {
                  height="500px"
                  mb={{base: 20, md: 0}}
             >
-                <Header/>
                 {/*<Image src="https://picsum.photos/id/78/1200/400/?blur=4" alt="Hero Image" objectFit="cover" w="100%" h="400px" />*/}
                 <Box maxW="800px" mx="auto" px={6} py={24} position="absolute" bottom="0" left="0" right="0" zIndex="1">
                     <Heading as="h1" size="3xl" color="white" mb={4}
@@ -86,7 +163,7 @@ function Gallery() {
                             borderWidth="10px"
                             borderStyle="solid"
                             borderColor="transparent"
-                            borderImage="linear-gradient(to bottom right, #8B4513, #D2691E, #8B4513) 1"
+                            borderimage="linear-gradient(to bottom right, #8B4513, #D2691E, #8B4513) 1"
                             boxShadow="2px 2px 8px rgba(0, 0, 0, 0.3)"
                             _hover={{
                                 transform: 'scale(1.20)',
@@ -118,18 +195,23 @@ function Gallery() {
                                 spacing={{base: 4, md: 0}}
                                 justifyContent="space-around"
                             >
-                                <Box width={{base: "100%", md: "40%"}} pl={{base: 4, md: 20}} pr={{base: 4, md: 0}}
-                                     py={{base: 0, md: 20}}>
+                                <Box width={{base: "100%", md: "40%"}}
+                                     pl={{base: 4, md: 20}}
+                                     pr={{base: 4, md: 0}}
+                                     py={{base: 0, md: 20}}
+                                     height="500px"
+                                >
                                     <Image
                                         src={item.display}
                                         alt={item.name}
                                         width={{base: "100%", md: "100%"}}
+                                        height="100%"
                                         objectFit="cover"
                                         overflow="hidden"
                                         borderWidth="10px"
                                         borderStyle="solid"
                                         borderColor="transparent"
-                                        borderImage="linear-gradient(to bottom right, #8B4513, #D2691E, #8B4513) 1"
+                                        borderimage="linear-gradient(to bottom right, #8B4513, #D2691E, #8B4513) 1"
                                         boxShadow="2px 2px 8px rgba(0, 0, 0, 0.3)"
                                         _hover={{
                                             transform: 'scale(1.05)',
@@ -162,7 +244,7 @@ function Gallery() {
                                         borderWidth="10px"
                                         borderStyle="solid"
                                         borderColor="transparent"
-                                        borderImage="linear-gradient(to bottom right, #8B4513, #D2691E, #8B4513) 1"
+                                        borderimage="linear-gradient(to bottom right, #8B4513, #D2691E, #8B4513) 1"
                                         boxShadow="2px 2px 8px rgba(0, 0, 0, 0.3)"
                                         _hover={{
                                             transform: 'scale(1.05)',
@@ -170,7 +252,7 @@ function Gallery() {
                                         }}
                                     />
                                 </Box>
-                                <Box width={{base: "100%", md: "80%"}} px={{base: 5, md: 20}} py={{base: 4, md: 20}}>
+                                <Box width={{base: "100%", md: "80%"}} px={{base: 5, md: 20}} py={{base: 4, md: 20}} my={{base:0, md:20}}>
                                     <Heading mb={5} fontSize={{base: "24px", md: "30px"}}>
                                         Requirements
                                     </Heading>
@@ -187,8 +269,22 @@ function Gallery() {
                                         })}
                                     </UnorderedList>
                                 </Box>
-
                             </Stack>
+                                {/* Map section */}
+                                {mapLoaded && (
+                                    <div style={{ width: '80%', height: '400px', paddingBottom: '50px' ,display: 'flex', margin:'auto'}}
+                                         onClick={() => {
+                                             const location = data[0].location;
+                                             const encodedLocation = encodeURIComponent(location);
+                                             const url = `https://www.google.com/maps/dir/?api=1&destination=${encodedLocation}`;
+                                             window.open(url, '_blank');
+                                         }}
+                                    >
+                                        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                                            <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }} ref={mapRef} />
+                                        </div>
+                                    </div>
+                                )}
                         </Box>
                     </>
                 ))}

@@ -35,9 +35,6 @@ function SignIn() {
                 let title = responseData.error ? responseData.error : "Success";
                 let status = responseData.error ? "error" : "success";
 
-
-
-
                 toast({
                     title: title,
                     status: status,
@@ -53,7 +50,8 @@ function SignIn() {
             else {
                 throw new Error('Form submission failed');
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.error(error);
             toast({
                 title: "Form submission error",
