@@ -30,7 +30,7 @@ We welcome contributions to enhance Artfinder! If you would like to contribute, 
 - Submit a pull request with a clear description of your changes.
 
 ## Related Projects
-- [Artfinder Backend](https://github.com/ManLikeTeetos/artfinder-backend)
+- [Artfinder Backend](https://github.com/ManLikeTeetos/artFinder_Back)
 
 
 ## Licensing
