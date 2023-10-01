@@ -90,7 +90,7 @@ function Home() {
                             );
 
                             const currentState = stateComponent ? stateComponent.long_name : '';
-                           // const currentState = "Ibadan";
+                            // const currentState = "Ibadan";
                             setCurrentLocation(currentState);
 
                             // Modify the API URL to include the location parameter
@@ -146,7 +146,7 @@ function Home() {
                  maxW="1900px"
                  mx="auto"
                  position="relative"
-                 //minHeight="100vh"
+                //minHeight="100vh"
                  bg={`linear-gradient(
                     rgba(0, 0, 0, 0.5),
                     rgba(0, 0, 0, 0.5)
@@ -286,78 +286,7 @@ function Home() {
             </>
             }
 
-            {data.length === 0 ? (
-                <Flex justifyContent="center" flexDirection="column" alignItems="center" my={100}>
-                    <Heading as="h1" size="xl" textAlign="center">
-                        Oops! No gallery found for the selected state. You can try entering a different state to explore more galleries.
-                    </Heading>
-                </Flex>
-            ) : (
-                <Flex justifyContent="center" flexDirection="column" alignItems="center" mt={100}>
-                    <Heading as="h1" size="xl" textAlign="center">
-                        Event and Exhibitions happening around you
-                    </Heading>
-                    <Text fontSize="lg" textAlign="center" mt={2} mb={{ base: 9 }}>
-                        You might want to Art-tend them.
-                    </Text>
-                </Flex>
-            )}
-            <Box>
-                {data.map((item, index) => (
-                    <Box key={item.id} h={{ base: "auto", md: 400 }}>
-                        <Stack
-                            direction={{ base: "column", md: index % 2 === 0 ? "row" : "row-reverse" }}
-                            spacing={{ base: 4, md: 0 }}
-                            justifyContent="space-around"
-                        >
-                            <Box
-                                width={{ base: "100%", md: "40%" }}
-                                pl={{ base: 4, md: 20 }}
-                                pr={{ base: 4, md: 0 }}
-                                py={{ base: 0, md: 20 }}
-                            >
-                                <Image
-                                    src={item.banner}
-                                    alt={item.name}
-                                    width={{base: "100%", md: "90%"}}
-                                    objectFit="cover"
-                                    onClick={() => handleImageClick(item.id)}
-                                    overflow="hidden"
-                                    borderWidth="10px"
-                                    borderStyle="solid"
-                                    borderColor="transparent"
-                                    borderimage="linear-gradient(to bottom right, #8B4513, #D2691E, #8B4513) 1"
-                                    boxShadow="2px 2px 8px rgba(0, 0, 0, 0.3)"
-                                    _hover={{
-                                        transform: 'scale(1.05)',
-                                        transition: 'transform 0.3s ease',
-                                    }}
-                                />
-                            </Box>
-                            <Box width={{ base: "100%", md: "80%" }} px={{ base: 5, md: 20 }} py={{ base: 4, md: 20 }}>
-                                <Heading mb={5} fontSize={{ base: "24px", md: "30px" }}>
-                                    {item.name}
-                                </Heading>
-                                <Text fontSize={{ base: "14px", md: "12px" }}>
-                                    {item.about.split(" ").slice(0, 50).join(" ")}{item.about.split(" ").length > 50 ? "..." : ""}
-                                </Text>
-                                <Button
-                                    my={{ base: 5, md: 5 }}
-                                    size="sm"
-                                    backgroundImage={`url(${btn_bg})`}
-                                    backgroundSize="cover"
-                                    backgroundPosition="center"
-                                    color="white"
-                                    _hover={{ bg: 'brown.600' }}
-                                    _active={{ bg: 'brown.700' }}
-                                    onClick={() => handleReadMore(item.id)}>
-                                    Read More
-                                </Button>
-                            </Box>
-                        </Stack>
-                    </Box>
-                ))}
-            </Box>
+
 
         </>
     );

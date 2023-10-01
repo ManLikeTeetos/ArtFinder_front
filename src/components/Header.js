@@ -147,7 +147,7 @@ function Header({userinfo}) {
                             display={isHovering || isSubMenuOpen ? "block" : "none"}
                             onClick={() => setIsSubMenuOpen(true)}
                         >
-                            <MenuItem as={Link} to="/gallery" target="_blank" rel="noopener noreferrer">
+                            <MenuItem as={Link} to="/gallerylist" target="_blank" rel="noopener noreferrer">
                                 Gallery List
                             </MenuItem>
                             {agent &&

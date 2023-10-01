@@ -6,6 +6,8 @@ import {ChakraProvider} from '@chakra-ui/react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Routing from "./components/Routes";
 import theme from "./theme.fonts";
+import Footer from "./pages/Footer"
+
 
 
 
