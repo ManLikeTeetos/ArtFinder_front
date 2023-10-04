@@ -63,6 +63,13 @@ function SignIn() {
         }
     };
 
+    const handleForgotPassword = () => {
+        // Implement your logic for handling forgotten passwords here.
+        // You can show a modal, navigate to a password reset page, or any other desired action.
+        // You may also want to integrate a modal library like Chakra UI's `Modal` for a better user experience.
+    };
+
+
     return (
         <Box
             display="flex"
@@ -120,6 +127,17 @@ function SignIn() {
                         _active={{bg: 'brown.700'}}
                     >
                         Sign in
+                    </Button>
+                    <Button
+                        width="full"
+                        variant="outline"
+                        colorScheme="white"
+                        textColor="white"
+                        backgroundColor="brown"
+                        // ... (add any desired styles)
+                        onClick={handleForgotPassword} // Call the handleForgotPassword function when the button is clicked
+                    >
+                        Forgot Password
                     </Button>
                 </VStack>
             </form>

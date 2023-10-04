@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import { useState, useEffect } from "react";
 import {
     Box,
     Button,
@@ -8,22 +8,33 @@ import {
     Input,
     VStack,
     Heading,
-    useToast, Alert, AlertIcon
+    Alert,
+    AlertIcon,
+    CheckboxIcon,
+    useToast
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import btn_bg from "../images/gallerydark.jpg";
 import btn_sub from "../images/wood.jpg";
-import { useNavigate } from 'react-router-dom';
 
-function SignUp() {
-    const navigate   = useNavigate();
+function UpdateUser() {
+    const userinfo = localStorage.getItem('userinfo');
+    let session_username = "";
+    let avatarSrc= "";
+    const [agentgallery, setAgentgallery] = useState([]);
+    if (userinfo) {
+        const userInfoObj = JSON.parse(userinfo);
+        avatarSrc = userInfoObj.display;
+        session_username = userInfoObj.username;
+    }
+
+    const navigate = useNavigate();
     const [data, setData] = useState({
         fname: "",
         lname: "",
         username: "",
         phone: "",
         email: "",
-        password: "",
-        confirmPassword: "",
         display: "",
     });
 
@@ -31,21 +42,35 @@ function SignUp() {
         const dispfile = event.target.files[0];
         setData({ ...data, display: dispfile });
     };
+
+
     const handleChange = (key, value) => {
-        setData({...data, [key]: value})
-    }
+        setData({ ...data, [key]: value });
+    };
+
     const validateEmail = (email) => {
         // Regular expression to validate email format
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         return emailRegex.test(email);
     };
+
     const validatePassword = (password) => {
         // Regular expression to validate password format
         const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
         return passwordRegex.test(password);
     };
+    const [isChangePasswordVisible, setChangePasswordVisible] = useState(false);
+    const handleToggleChangePassword = () => {
+        setChangePasswordVisible(!isChangePasswordVisible);
+        // Reset the password fields when hiding
+        if (!isChangePasswordVisible) {
+            handleChange("password", "");
+            handleChange("confirmPassword", "");
+        }
+    };
 
-    const toast = useToast();
+
+
     // Function to check if a user with the provided username exists
     const [userExists, setUserExists] = useState(false);
     const checkUserExists = async (username) => {
@@ -66,26 +91,30 @@ function SignUp() {
             console.error(error);
         }
     };
+
     useEffect(() => {
         if (data.username) {
             // Check for user existence when the username field changes
-            // alert(data.username)
-            checkUserExists(data.username);
+           // alert(data.username)
+            if(session_username != data.username) checkUserExists(data.username);
         }
     }, [data.username]);
+
+    const toast = useToast();
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData();
         for (var key in data) {
             formData.append(key, data[key]);
         }
+
         try {
-            const response = await fetch('http://localhost:8000/api/addUser', {
+            const response = await fetch(`http://localhost:8000/api/updateUser?session_username=${session_username}`, {
                 method: 'POST',
                 body: formData,
-
-                // headers: { 'Content-Type': 'application/json' },
             });
+
             if (response.ok) {
                 const responseData = await response.json();
 
@@ -93,21 +122,22 @@ function SignUp() {
                 localStorage.setItem('userinfo', JSON.stringify(responseData));
 
                 toast({
-                    title: "Form submitted!",
+                    title: "User updated successfully!",
                     status: "success",
                     duration: 3000,
-                    isClosable: true,
+                    position: "top",
+                    isClosable: false,
                 });
 
-                //Redirect home
+                // Redirect home or to the user's profile
                 navigate('/');
             } else {
-                throw new Error('Form submission failed');
+                throw new Error('User update failed');
             }
         } catch (error) {
             console.error(error);
             toast({
-                title: "Form submission error",
+                title: "User update error",
                 description: error.message,
                 status: "error",
                 duration: 5000,
@@ -115,6 +145,26 @@ function SignUp() {
             });
         }
     };
+
+    // Fetch user data and populate the form
+    useEffect(() => {
+        const fetchUserData = async () => {
+           // alert(username);
+            try {
+                const response = await fetch(`http://localhost:8000/api/getUser_upd?username=${session_username}`);
+                if (response.ok) {
+                    const userData = await response.json();
+                    setData(userData);
+                } else {
+                    throw new Error('Failed to fetch user data');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchUserData();
+    }, [session_username]);
 
     return (
         <Box
@@ -125,7 +175,6 @@ function SignUp() {
             backgroundImage={`url(${btn_bg})`}
             backgroundSize="cover"
             backgroundPosition="center"
-            //height="100vh"
         >
             <form onSubmit={handleSubmit}>
                 <VStack
@@ -142,6 +191,7 @@ function SignUp() {
                         ArtFinder
                     </Heading>
 
+                    {/* Form fields similar to SignUp component */}
                     <FormControl isRequired>
                         <FormLabel fontSize="sm">First Name</FormLabel>
                         <Input type="text"
@@ -169,10 +219,11 @@ function SignUp() {
                                onChange={(event) => handleChange('username', event.target.value)}
                         />
 
-                        <Alert status="error" variant="subtle">
-                            <AlertIcon color={userExists? 'red' : 'green'} />
-                            {userExists ? 'Username already exists' : 'Username is valid'}
-                        </Alert>
+                            <Alert status="error" variant="subtle">
+                                <AlertIcon color={userExists? 'red' : 'green'} />
+                                {userExists ? 'Username already exists' : 'Username is valid'}
+                            </Alert>
+
                     </FormControl>
                     <FormControl isRequired>
                         <FormLabel fontSize="sm">Email</FormLabel>
@@ -199,35 +250,6 @@ function SignUp() {
                             onChange={(event) => handleChange("phone", event.target.value)}
                         />
                     </FormControl>
-                    <FormControl isRequired >
-                        <FormLabel fontSize="sm" >Password</FormLabel>
-                        <Input type="password"
-                               borderColor="#8b45135c"
-                               bg="#80808038"
-                               placeholder="Enter your password"
-                               value={data.password}
-                               onChange={(event) => handleChange("password", event.target.value)}
-                               errorBorderColor="red.300"
-                        />
-                        <FormErrorMessage>
-                            {data.password && !validatePassword(data.password) && "Invalid password format"}
-                        </FormErrorMessage>
-                    </FormControl>
-                    <FormControl isRequired mt={4} isInvalid={data.password !== data.confirmPassword}>
-                        <FormLabel fontSize="sm">Confirm Password:</FormLabel>
-                        <Input
-                            type="password"
-                            placeholder="Confirm your password"
-                            borderColor="#8b45135c"
-                            bg="#80808038"
-                            value={data.confirmPassword}
-                            onChange={(event) => handleChange("confirmPassword", event.target.value)}
-                            errorBorderColor="red.300"
-                        />
-                        <FormErrorMessage>
-                            {data.password !== data.confirmPassword && "Passwords do not match"}
-                        </FormErrorMessage>
-                    </FormControl>
                     <FormControl mt={4}>
                         <FormLabel>Display Image:</FormLabel>
                         <Input
@@ -236,19 +258,61 @@ function SignUp() {
                             onChange={handleDisplayChange}
                         />
                     </FormControl>
+                    <img src={avatarSrc} alt="Former Display" style={{ width: "100px", height: "auto" }} /> {/* Display former profile picture */}
+                    <Button
+                        mt={2}
+                        variant="outline"
+                        colorScheme="blue"
+                        onClick={handleToggleChangePassword}
+                    >
+                        {isChangePasswordVisible ? "Cancel Change Password" : "Change Password"}
+                    </Button>
+                    {isChangePasswordVisible && (
+                        <>
+                            <FormControl isRequired>
+                                <FormLabel fontSize="sm">New Password</FormLabel>
+                                <Input type="password"
+                                       borderColor="#8b45135c"
+                                       bg="#80808038"
+                                       placeholder="Enter your password"
+                                       value={data.password}
+                                       onChange={(event) => handleChange("password", event.target.value)}
+                                       errorBorderColor="red.300"
+                                />
+                                <FormErrorMessage>
+                                    {data.password && !validatePassword(data.password) && "Invalid password format"}
+                                </FormErrorMessage>
+                            </FormControl>
+                            <FormControl isRequired>
+                                <FormLabel fontSize="sm">Confirm Password</FormLabel>
+                                <Input
+                                    type="password"
+                                    placeholder="Confirm your password"
+                                    borderColor="#8b45135c"
+                                    bg="#80808038"
+                                    value={data.confirmPassword}
+                                    onChange={(event) => handleChange("confirmPassword", event.target.value)}
+                                    errorBorderColor="red.300"
+                                />
+                                <FormErrorMessage>
+                                    {data.password !== data.confirmPassword && "Passwords do not match"}
+                                </FormErrorMessage>
+                            </FormControl>
+                        </>
+                    )}
+
                     <Button
                         width="full"
                         type="submit"
-                        // bg="#8B4513"
                         backgroundImage={`url(${btn_sub})`}
                         backgroundSize="cover"
                         backgroundPosition="center"
                         color="white"
-                        _hover={{bg: 'brown.600'}}
-                        _active={{bg: 'brown.700'}}
+                        _hover={{ bg: 'brown.600' }}
+                        _active={{ bg: 'brown.700' }}
                         isDisabled={userExists || !data.username} // Disable the button if the user exists or username is empty
                     >
-                        Sign Up
+                        Update User
                     </Button>
                 </VStack>
             </form>
@@ -256,4 +320,5 @@ function SignUp() {
     );
 }
 
-export default SignUp;
+export default UpdateUser;
+

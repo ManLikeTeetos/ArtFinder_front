@@ -287,7 +287,7 @@ function Header({userinfo}) {
                                 onMouseLeave={handleMouseLeave}
                                 onClick={() => setIsSubMenuOpen(true)}
                             >
-                                <MenuItem as={Link} to="/" target="_blank" rel="noopener noreferrer">
+                                <MenuItem as={Link} to="/updateuser" >
                                     Edit Profile
                                 </MenuItem>
                                 <MenuItem onClick={Signout}>
