@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {
     FormControl,
     FormLabel,
@@ -6,7 +6,7 @@ import {
     Input,
     Textarea,
     Button,
-    useToast, Box, Heading, Text, VStack,
+    useToast, Box, Heading, Text, VStack, Alert, AlertIcon,
 } from "@chakra-ui/react";
 import DateTimePicker from "react-datetime-picker";
 import backgroundImage from "../images/Leonardo-Da-Vinci-Monna-Lisa.jpg";
@@ -61,6 +61,37 @@ function Finder() {
 
 
     const toast = useToast();
+    // Function to check if a user with the provided username exists
+    const [userExists, setUserExists] = useState(false);
+    const checkUserExists = async (username) => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/checkUserExists?username=${username}`);
+
+            if (response.ok) {
+                //alert("i am here");
+                const result = await response.json();
+                console.log(15, result);
+                if(result.message){
+                    setUserExists(true);
+                } else {
+                    setUserExists(false);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
+        if (data.username) {
+            // Check for user existence when the username field changes
+            // alert(data.username)
+            if(data.username.length > 1) {
+                checkUserExists(data.username);
+            } else{
+                setUserExists(true);
+            }
+        }
+    }, [data.username]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -166,6 +197,10 @@ function Finder() {
                                value={data.username}
                                onChange={(event) => handleChange('username', event.target.value)}
                         />
+                        <Alert status="error" variant="subtle">
+                            <AlertIcon color={userExists? 'red' : 'green'} />
+                            {userExists ? 'Username already exists' : 'Username is valid'}
+                        </Alert>
                     </FormControl>
                     <FormControl isRequired mt={4} isInvalid={!validateEmail(data.email)}>
                         <FormLabel>Email:</FormLabel>
@@ -233,6 +268,7 @@ function Finder() {
                         color="white"
                         _hover={{bg: 'brown.600'}}
                         _active={{bg: 'brown.700'}}
+                        isDisabled={userExists || !data.username} // Disable the button if the user exists or username is empty
                     >
                         Sign Up
                     </Button>

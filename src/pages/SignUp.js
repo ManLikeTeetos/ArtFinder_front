@@ -70,7 +70,11 @@ function SignUp() {
         if (data.username) {
             // Check for user existence when the username field changes
             // alert(data.username)
-            checkUserExists(data.username);
+            if(data.username.length > 1){
+                checkUserExists(data.username);
+            } else{
+                setUserExists(true);
+            }
         }
     }, [data.username]);
     const handleSubmit = async (event) => {
