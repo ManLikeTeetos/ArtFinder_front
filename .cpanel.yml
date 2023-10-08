@@ -2,5 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/artfinde/public_html/
-    - mkdir -p $DEPLOYPATH
-    - cp -r build/* $DEPLOYPATH
+    - bin/cp -R build/* $DEPLOYPATH
