@@ -31,6 +31,9 @@ function Home() {
     }
     const fetchGalleryRef = async () => {
         let res = '';
+        if(currentStateRef.current.length < 0){
+            currentStateRef.current = "Lagos";
+        }
 
         // Modify the API URL to include the location parameter
         const result = await fetch(`https://api.artfinderx.com/api/getGallery?location=${currentStateRef.current}`, {
