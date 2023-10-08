@@ -75,7 +75,7 @@ function UpdateUser() {
     const [userExists, setUserExists] = useState(false);
     const checkUserExists = async (username) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/checkUserExists?username=${username}`);
+            const response = await fetch(`https://api.artfinderx.com/api/checkUserExists?username=${username}`);
 
             if (response.ok) {
                 //alert("i am here");
@@ -110,7 +110,7 @@ function UpdateUser() {
         }
 
         try {
-            const response = await fetch(`http://localhost:8000/api/updateUser?session_username=${session_username}`, {
+            const response = await fetch(`https://api.artfinderx.com/api/updateUser?session_username=${session_username}`, {
                 method: 'POST',
                 body: formData,
             });
@@ -151,7 +151,7 @@ function UpdateUser() {
         const fetchUserData = async () => {
            // alert(username);
             try {
-                const response = await fetch(`http://localhost:8000/api/getUser_upd?username=${session_username}`);
+                const response = await fetch(`https://api.artfinderx.com/api/getUser_upd?username=${session_username}`);
                 if (response.ok) {
                     const userData = await response.json();
                     setData(userData);

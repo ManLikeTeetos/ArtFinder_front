@@ -50,7 +50,7 @@ function SignUp() {
     const [userExists, setUserExists] = useState(false);
     const checkUserExists = async (username) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/checkUserExists?username=${username}`);
+            const response = await fetch(`https://api.artfinderx.com/api/checkUserExists?username=${username}`);
 
             if (response.ok) {
                 //alert("i am here");
@@ -84,7 +84,7 @@ function SignUp() {
             formData.append(key, data[key]);
         }
         try {
-            const response = await fetch('http://localhost:8000/api/addUser', {
+            const response = await fetch('https://api.artfinderx.com/api/addUser', {
                 method: 'POST',
                 body: formData,
 

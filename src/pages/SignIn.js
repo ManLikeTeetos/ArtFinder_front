@@ -24,7 +24,7 @@ function SignIn() {
             formData.append(key, data[key]);
         }
         try {
-            const response = await fetch('http://localhost:8000/api/signIn', {
+            const response = await fetch('https://api.artfinderx.com/api/signIn', {
                 method: 'POST',
                 body: formData,
                 // headers: { 'Content-Type': 'application/json' },

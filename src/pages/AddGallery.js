@@ -96,7 +96,7 @@ function AddGallery() {
 
     const handleDeleteImage = async (image, id) => {
         // Handle image deletion
-        const apiUrl = "http://localhost:8000/api/deleteImage";
+        const apiUrl = "https://api.artfinderx.com/api/deleteImage";
         const imageParam = encodeURIComponent(image);
         const idParam = encodeURIComponent(id);
 
@@ -179,7 +179,7 @@ function AddGallery() {
     useEffect(() => {
         async function fetchGalleryAgent() {
             let res = "";
-            const result = await fetch(`http://localhost:8000/api/getGalleryAgent?username=${username}`, {
+            const result = await fetch(`https://api.artfinderx.com/api/getGalleryAgent?username=${username}`, {
                 method: 'GET',
                 // body: JSON.stringify(userid),
                 headers: {
@@ -261,7 +261,7 @@ function AddGallery() {
         try {
 
 
-            const response = await fetch('http://localhost:8000/api/addGallery', {
+            const response = await fetch('https://api.artfinderx.com/api/addGallery', {
                 method: 'POST',
                 body: formData,
                 // headers: { 'Content-Type': 'application/json' },
