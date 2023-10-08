@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/artfinde/public_html/
-    - bin/cp -R build/* $DEPLOYPATH
+    - /home/artfinde/artfinder_front/deploy.sh
