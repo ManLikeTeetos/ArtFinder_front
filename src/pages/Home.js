@@ -11,7 +11,7 @@ function Home() {
     const [isMobile] = useMediaQuery('(max-width: 767px)');
     const navigate   = useNavigate();
     const userinfo   = localStorage.getItem('userinfo');
-    const [currentLocation, setCurrentLocation] = useState('');
+    const [currentLocation, setCurrentLocation] = useState('Lagos');
     const currentStateRef = useRef(currentLocation);
     const [currentState, setCurrentState] = useState(currentLocation);
     const handleStateChange = (event) => {
