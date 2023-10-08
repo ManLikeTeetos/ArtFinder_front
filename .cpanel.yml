@@ -1,5 +1,4 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/artfinde/public_html/
-    - /home/artfinde/artfinder_front/deploy.sh
+    - /home2/artfinde/artfinder_front/hooks/post-receive

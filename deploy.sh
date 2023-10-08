@@ -2,7 +2,7 @@
 
 # Define the source and destination directories
 SOURCE_DIR="./build/"
-DESTINATION_DIR="/home/artfinde/public_html/"
+DESTINATION_DIR="/home2/artfinde/public_html/"
 
 # Create the destination directory if it doesn't exist
 mkdir -p $DESTINATION_DIR

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Define the source and destination directories
+SOURCE_DIR="/home2/artfinde/artfinder_front"
+DESTINATION_DIR="/home2/artfinde/public_html/"
+
+# Copy the contents of the 'build' directory to the 'public_html' directory
+cp -r $SOURCE_DIR/build/* $DESTINATION_DIR
