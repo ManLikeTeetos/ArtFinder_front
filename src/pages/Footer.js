@@ -1,10 +1,11 @@
 import React from "react";
-import { Flex, Text, Link, Box, useMediaQuery } from "@chakra-ui/react";
+import { Flex, Text, Link, Box, useMediaQuery, Button } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import btn_bg from "../images/wood.jpg";
 
 function Footer() {
     const [isMobile] = useMediaQuery("(max-width: 600px)");
+    const externalUrl = "https://manliketeetos.github.io/ArtFinderLanding";
 
     return (
         <Flex
@@ -27,7 +28,7 @@ function Footer() {
                     fontSize={{ base: "12px", md: "14px", lg: "24px" }}
                     mb="5px"
                 >
-                    ArtFinder
+                    ArtFinderX
                 </Text>
                 <Text
                     fontFamily="InterVariable,-apple-system,system-ui,sans-serif;"
@@ -134,6 +135,20 @@ function Footer() {
                 >
                     Copyright © 2023 Designed By Toluwanimi Ade-ojo
                 </Text>
+                <Link
+                    as="a"
+                    fontFamily="InterVariable,-apple-system,system-ui,sans-serif;"
+                    fontWeight="600"
+                    bg="transparent"
+                    color="white"
+                    fontSize={{ base: "12px", md: "14px", lg: "16px" }}
+                    mb="5px"
+                    href={externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                   About
+                </Link>
             </Flex>
         </Flex>
     );

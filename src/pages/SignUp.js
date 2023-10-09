@@ -143,7 +143,7 @@ function SignUp() {
                     boxShadow="10px 4px 20px rgba(0, 0, 0, 0.2)"
                 >
                     <Heading size="md" textAlign="center">
-                        ArtFinder
+                        ArtFinderX
                     </Heading>
 
                     <FormControl isRequired>
