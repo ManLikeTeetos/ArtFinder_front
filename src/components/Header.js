@@ -63,13 +63,14 @@ function Header({userinfo}) {
             opacity={0.9}
             transition="background-color 0.3s ease"
             py="10px"
+            px="15px"
             maxW="100%"
             align="center"
             zIndex="2"
         >
 
             {/* Mobile menu */}
-            <Flex w="30px" justify="flex-end" mr="20px">
+            <Flex w="30px" justify="flex-end" mr="20px" h="auto">
                 <IconButton
                     aria-label="Open Menu"
                     size="md"
@@ -89,10 +90,10 @@ function Header({userinfo}) {
             </Flex>
 
             {/* Desktop menu */}
-            <Box fontSize="16px" w="70%" mx="20px" justify="center">
+            <Box fontSize="16px" w="70%" mx="40px" justify="center">
                 <Stack
                     direction={isLargerThanMobile ? "row" : "column"}
-                    spacing={[isLargerThanMobile ? "4" : "0", "", "7", "7"]}
+                    spacing={[isLargerThanMobile ? "4" : "6", "", "6", "10"]}
                     align="center"
                     w="auto"
                     display={isLargerThanMobile ? "flex" : isMenuOpen ? "flex" : "none"}
@@ -101,7 +102,7 @@ function Header({userinfo}) {
                         fontFamily="InterVariable,-apple-system,system-ui,sans-serif;"
                         fontWeight="600"
                         color="white"
-                        fontSize={{base: "12px", md: "14px", lg: "16px"}}
+                        fontSize={{base: "14px", md: "14px", lg: "16px"}}
                         h={["auto", "", "", "24px"]}
                     >
                         ArtFinder
@@ -109,7 +110,7 @@ function Header({userinfo}) {
                     <Button
                         colorScheme="#4a5568"
                         variant="link"
-                        fontSize={{base: "12px", md: "14px", lg: "16px"}}
+                        fontSize={{base: "14px", md: "14px", lg: "16px"}}
                         minWidth="auto"
                     >
                         <Link to="/">
@@ -127,7 +128,7 @@ function Header({userinfo}) {
                             as={Button}
                             colorScheme="#4a5568"
                             variant="link"
-                            fontSize={{base: "12px", md: "14px", lg: "16px"}}
+                            fontSize={{base: "14px", md: "14px", lg: "16px"}}
                             minWidth="auto"
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
@@ -160,7 +161,7 @@ function Header({userinfo}) {
                     <Button
                         colorScheme="#4a5568"
                         variant="link"
-                        fontSize={{base: "12px", md: "14px", lg: "16px"}}
+                        fontSize={{base: "14px", md: "14px", lg: "16px"}}
                         minWidth="auto"
                     >
                         <Link to="/event">
@@ -176,7 +177,7 @@ function Header({userinfo}) {
                     <Button
                         colorScheme="#4a5568"
                         variant="link"
-                        fontSize={{base: "12px", md: "14px", lg: "16px"}}
+                        fontSize={{base: "14px", md: "14px", lg: "16px"}}
                         minWidth="auto"
                     >
                         <Link to="/NFT">
@@ -192,7 +193,7 @@ function Header({userinfo}) {
                     <Button
                         colorScheme="#4a5568"
                         variant="link"
-                        fontSize={{base: "12px", md: "14px", lg: "16px"}}
+                        fontSize={{base: "14px", md: "14px", lg: "16px"}}
                         minWidth="auto"
                     >
                         <Link to="/sales">
@@ -208,7 +209,7 @@ function Header({userinfo}) {
                     <Button
                         colorScheme="#4a5568"
                         variant="link"
-                        fontSize={{base: "12px", md: "14px", lg: "16px"}}
+                        fontSize={{base: "14px", md: "14px", lg: "16px"}}
                         minWidth="auto"
                     >
                         <Link to="/faq">
@@ -232,7 +233,7 @@ function Header({userinfo}) {
                                 _hover={{bg: 'brown.600'}}
                                 _active={{bg: 'brown.700'}}
                                 ml={{base:"0px", lg: "50px"}}
-                                mb={{base: "10px", lg: "0px"}}
+                                mb={{base: "40px", lg: "0px"}}
                                 fontSize={{base: "12px", md: "14px", lg: "16px"}}
                                 my="auto"
                             >
