@@ -192,11 +192,29 @@ function Home() {
                             borderColor="brown"
                             focusBorderColor="brown"
                         />
+                        <Center>
+                            <Button
+                                backgroundImage={`url(${btn_bg})`}
+                                backgroundSize="cover"
+                                backgroundPosition="center"
+                                color="white"
+                                _hover={{bg: 'brown.600'}}
+                                _active={{bg: 'brown.700'}}
+                                mt="20px"
+                                mx="auto"
+                                //ml={{base:"0px", lg: "50px"}}
+                                mb={{base: "40px", lg: "0px"}}
+                                fontSize={{base: "12px", md: "14px", lg: "16px"}}
+                                //onClick={handleStateChange}
+                            >
+                                Find
+                            </Button>
+                        </Center>
                     </Box>
                 </Center>
 
 
-                <Box py={10} mx={4} mt={10}>
+                <Box py={10} mx={4} >
                     {data.map((item) => (
                         <Box
                             key={item.id}
@@ -252,9 +270,27 @@ function Home() {
                             borderColor="brown"
                             focusBorderColor="brown"
                         />
+                        <Center>
+                            <Button
+                                backgroundImage={`url(${btn_bg})`}
+                                backgroundSize="cover"
+                                backgroundPosition="center"
+                                color="white"
+                                _hover={{bg: 'brown.600'}}
+                                _active={{bg: 'brown.700'}}
+                                mt="20px"
+                                mx="auto"
+                                //ml={{base:"0px", lg: "50px"}}
+                                mb={{base: "40px", lg: "0px"}}
+                                fontSize={{base: "12px", md: "14px", lg: "16px"}}
+                                //onClick={handleStateChange}
+                            >
+                                Find
+                            </Button>
+                        </Center>
                     </Box>
                 </Center>
-                <Box py={10} mx={20} mt={10}>
+                <Box py={10} mx={20} >
                     <Grid templateColumns="repeat(4, 1fr)" gap={6}>
                         {data.map((item) => (
                             <Box

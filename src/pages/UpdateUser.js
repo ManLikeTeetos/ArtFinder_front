@@ -40,7 +40,12 @@ function UpdateUser() {
 
     const handleDisplayChange = (event) => {
         const dispfile = event.target.files[0];
+
+        // Create a temporary URL for the selected file
+        const tempURL = URL.createObjectURL(dispfile);
+
         setData({ ...data, display: dispfile });
+        setAvatarSrc(tempURL);
     };
 
 
