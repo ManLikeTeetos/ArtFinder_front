@@ -20,11 +20,11 @@ import btn_sub from "../images/wood.jpg";
 function UpdateUser() {
     const userinfo = localStorage.getItem('userinfo');
     let session_username = "";
-    let avatarSrc= "";
+    const [avatarSrc, setAvatarSrc] = useState(""); // Initialize it with an empty string
     const [agentgallery, setAgentgallery] = useState([]);
     if (userinfo) {
         const userInfoObj = JSON.parse(userinfo);
-        avatarSrc = userInfoObj.display;
+        setAvatarSrc(userInfoObj.display);
         session_username = userInfoObj.username;
     }
 

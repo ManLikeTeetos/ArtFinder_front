@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d1aa756d.css",
+    "main.js": "/static/js/main.42784b2b.js",
+    "static/js/787.7a927d78.chunk.js": "/static/js/787.7a927d78.chunk.js",
+    "static/media/agent.jpg": "/static/media/agent.8731a0323039e38958e2.jpg",
+    "static/media/become2.jpeg": "/static/media/become2.d83a8c9954373804b8ec.jpeg",
+    "static/media/Leonardo-Da-Vinci-Monna-Lisa.jpg": "/static/media/Leonardo-Da-Vinci-Monna-Lisa.62f9af84db722de7d28c.jpg",
+    "static/media/gallerydark.jpg": "/static/media/gallerydark.213bc3aa005bc8289bd0.jpg",
+    "static/media/requirement.jpg": "/static/media/requirement.51ab8b5666c35ba6609f.jpg",
+    "static/media/raleway-all-400-normal.woff": "/static/media/raleway-all-400-normal.98e7ff86f2b9a46e19cc.woff",
+    "static/media/gallerydark2.jpg": "/static/media/gallerydark2.efafe3fddf9202530cc7.jpg",
+    "static/media/wood.jpg": "/static/media/wood.c05be1bfa2c979a9ff8d.jpg",
+    "static/media/raleway-latin-400-normal.woff2": "/static/media/raleway-latin-400-normal.0bdecdd83e78d540c297.woff2",
+    "static/media/raleway-latin-ext-400-normal.woff2": "/static/media/raleway-latin-ext-400-normal.e2c3693083a044bed680.woff2",
+    "static/media/raleway-cyrillic-ext-400-normal.woff2": "/static/media/raleway-cyrillic-ext-400-normal.afca160d632851197a24.woff2",
+    "static/media/raleway-cyrillic-400-normal.woff2": "/static/media/raleway-cyrillic-400-normal.f7d0cc4bf9cf8da4f023.woff2",
+    "static/media/raleway-vietnamese-400-normal.woff2": "/static/media/raleway-vietnamese-400-normal.bb6f51e1b67ec8802d57.woff2",
+    "index.html": "/index.html",
+    "static/media/theme.fonts": "/static/media/theme.5e3877cc0421671191e8.fonts",
+    "main.d1aa756d.css.map": "/static/css/main.d1aa756d.css.map",
+    "main.42784b2b.js.map": "/static/js/main.42784b2b.js.map",
+    "787.7a927d78.chunk.js.map": "/static/js/787.7a927d78.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d1aa756d.css",
+    "static/js/main.42784b2b.js"
+  ]
+}
