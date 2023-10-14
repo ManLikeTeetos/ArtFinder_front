@@ -1,15 +1,27 @@
 import {useLocation} from 'react-router-dom';
 import Header from "../components/Header"
-import {Box, Button, Heading, Image, Stack, Text, UnorderedList, ListItem, SimpleGrid} from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Heading,
+    Image,
+    Stack,
+    Text,
+    UnorderedList,
+    ListItem,
+    SimpleGrid,
+    useMediaQuery
+} from "@chakra-ui/react";
 import backgroundImage from "../images/Leonardo-Da-Vinci-Monna-Lisa.jpg";
 import {useEffect, useState, useRef} from "react";
 import requireImage from "../images/requirement.jpg";
 import Masonry from 'react-masonry-css';
 
 
-function Gallery() {
+function Artist() {
     const location = useLocation();
     const mapRef = useRef(null);
+    const [isMobile] = useMediaQuery('(max-width: 767px)');
     const id = location.state.id;
     const [data, setData] = useState([]);
     const [mapLoaded, setMapLoaded] = useState(false);
@@ -21,10 +33,10 @@ function Gallery() {
     }
 
     useEffect(() => {
-        async function fetchGallery() {
+        async function fetchArtist() {
             //let item = {id}
             let res = "";
-            const result = await fetch(`https://api.artfinderx.com/api/getGallery?id=${id}`, {
+            const result = await fetch(`https://api.artfinderx.com/api/getArtist?id=${id}`, {
                 method: 'GET',
                 //body: JSON.stringify(item),
                 headers: {
@@ -38,7 +50,7 @@ function Gallery() {
             }
         }
 
-        fetchGallery();
+        fetchArtist();
     }, [id]);
 
 
@@ -111,11 +123,11 @@ function Gallery() {
 
     //alert(mapLoaded)
     console.log(34, data);
-    let gallery_name = 'Gallery';
+    let artist_name = 'Artist';
     let images = [];
     if (data.length > 0) {
         backgroundImage = data[0]['banner'];
-        gallery_name = data[0]['name'];
+        artist_name = data[0]['name'];
         images = data[0].images;
     }
     const breakpointColumnsObj = {
@@ -144,47 +156,10 @@ function Gallery() {
                 {/*<Image src="https://picsum.photos/id/78/1200/400/?blur=4" alt="Hero Image" objectFit="cover" w="100%" h="400px" />*/}
                 <Box maxW="800px" mx="auto" px={6} py={24} position="absolute" bottom="0" left="0" right="0" zIndex="1">
                     <Heading as="h1" size="3xl" color="white" mb={4}
-                             textAlign={{base: "center", md: "left"}}>{gallery_name}</Heading>
+                             textAlign={{base: "center", md: "left"}}>{artist_name}</Heading>
                     <Text fontWeight="bold" color="white" fontSize="xl" mb={8} textAlign={{base: "center", md: "left"}}>The
                         Art Galaxy in your palms</Text>
                 </Box>
-            </Box>
-            <Box
-                py={{base:0, md: 20}}
-                px={{base:5, md: 20}}
-            >
-                <SimpleGrid columns={[2, 3, 4]} spacing="10px"  mb={{base:10, md: 0}}>
-                    {images.map((image) => (
-                        <Box
-                            position="relative"
-                            width="100%"
-                            paddingBottom="100%"
-                            overflow="hidden"
-                            borderWidth="10px"
-                            borderStyle="solid"
-                            borderColor="transparent"
-                            borderimage="linear-gradient(to bottom right, #8B4513, #D2691E, #8B4513) 1"
-                            boxShadow="2px 2px 8px rgba(0, 0, 0, 0.3)"
-                            _hover={{
-                                transform: 'scale(1.20)',
-                                transition: 'transform 0.3s ease',
-                            }}
-                        >
-                            <Box
-                                position="absolute"
-                                top="0"
-                                left="0"
-                                bottom="0"
-                                right="0"
-                                backgroundImage={`url(${image})`}
-                                backgroundSize="cover"
-                                backgroundPosition="center center"
-
-                            />
-                        </Box>
-                    ))}
-                </SimpleGrid>
-
             </Box>
             <Box>
                 {data.map((item, index) => (
@@ -224,10 +199,6 @@ function Gallery() {
                                         Who are we?
                                     </Heading>
                                     <Text fontSize={{base: "14px", md: "16px"}}>{item.about}</Text>
-                                    <Heading my={5} fontSize={{base: "24px", md: "30px"}}>
-                                        Opening
-                                    </Heading>
-                                    <Text fontSize={{base: "14px", md: "16px"}}>{item.opening}</Text>
                                 </Box>
                             </Stack>
                         </Box>
@@ -241,7 +212,7 @@ function Gallery() {
                                      py={{base: 0, md: 20}}>
                                     <Image
                                         src={requireImage}
-                                        alt="requirements"
+                                        alt="contact"
                                         width={{base: "100%", md: "90%"}}
                                         objectFit="cover"
                                         overflow="hidden"
@@ -258,10 +229,10 @@ function Gallery() {
                                 </Box>
                                 <Box width={{base: "100%", md: "80%"}} px={{base: 5, md: 20}} py={{base: 4, md: 20}} my={{base:0, md:20}}>
                                     <Heading mb={5} fontSize={{base: "24px", md: "30px"}}>
-                                        Requirements
+                                        Contact
                                     </Heading>
                                     <UnorderedList>
-                                        {item.requirements.split('.').map((requirement) => {
+                                        {item.contact.split('-').map((requirement) => {
                                             if (requirement.trim() === '') {
                                                 return null; // ignore empty strings
                                             }
@@ -274,28 +245,66 @@ function Gallery() {
                                     </UnorderedList>
                                 </Box>
                             </Stack>
-                                {/* Map section */}
-                                {mapLoaded && (
-                                    <div style={{ width: '80%', height: '400px', paddingBottom: '50px' ,display: 'flex', margin:'auto'}}
-                                         onClick={() => {
-                                             const location = data[0].location;
-                                             const encodedLocation = encodeURIComponent(location);
-                                             const url = `https://www.google.com/maps/dir/?api=1&destination=${encodedLocation}`;
-                                             window.open(url, '_blank');
-                                         }}
-                                    >
-                                        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                                            <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }} ref={mapRef} />
-                                        </div>
+                            {/* Map section */}
+                            {mapLoaded && (
+                                <div style={{ width: '80%', height: '400px', paddingBottom: '50px' ,display: 'flex', margin:'auto'}}
+                                     onClick={() => {
+                                         const location = data[0].location;
+                                         const encodedLocation = encodeURIComponent(location);
+                                         const url = `https://www.google.com/maps/dir/?api=1&destination=${encodedLocation}`;
+                                         window.open(url, '_blank');
+                                     }}
+                                >
+                                    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                                        <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }} ref={mapRef} />
                                     </div>
-                                )}
+                                </div>
+                            )}
                         </Box>
                     </>
                 ))}
 
             </Box>
+            <Box
+                py={{base:0, md: 20}}
+                px={{base:5, md: 20}}
+            >
+                <SimpleGrid columns={[2, 3, 4]} spacing="10px"  mb={{base:10, md: 0}}>
+                    {images.map((image) => (
+                        <Box
+                            position="relative"
+                            width="100%"
+                            paddingBottom="100%"
+                            overflow="hidden"
+                            borderWidth="10px"
+                            borderStyle="solid"
+                            borderColor="transparent"
+                            borderimage="linear-gradient(to bottom right, #8B4513, #D2691E, #8B4513) 1"
+                            boxShadow="2px 2px 8px rgba(0, 0, 0, 0.3)"
+                            _hover={{
+                                transform: 'scale(1.20)',
+                                transition: 'transform 0.3s ease',
+                            }}
+                        >
+                            <Box
+                                position="absolute"
+                                top="0"
+                                left="0"
+                                bottom="0"
+                                right="0"
+                                backgroundImage={`url(${image})`}
+                                backgroundSize="cover"
+                                backgroundPosition="center center"
+
+                            />
+                        </Box>
+                    ))}
+                </SimpleGrid>
+
+            </Box>
+           
         </>
     );
 }
 
-export default Gallery;
+export default Artist;

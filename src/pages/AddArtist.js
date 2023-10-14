@@ -8,7 +8,9 @@ import {
     useToast, Box, Heading, Text,
     Select,
     Stack,
-    Image, Grid, GridItem, useMediaQuery,
+    Image,
+    Grid,
+    GridItem, useMediaQuery,
 } from "@chakra-ui/react";
 import DateTimePicker from "react-datetime-picker";
 import backgroundImage from "../images/Leonardo-Da-Vinci-Monna-Lisa.jpg";
@@ -16,25 +18,23 @@ import Header from "../components/Header";
 import GoogleMaps from "../GoogleMap";
 
 
-function AddGallery() {
+function AddArtist() {
 
     const userinfo = localStorage.getItem('userinfo');
     const [isMobile] = useMediaQuery('(max-width: 767px)');
     let username = "";
-    const [agentgallery, setAgentgallery] = useState([]);
+    const [agentartist, setAgentartist] = useState([]);
     if (userinfo) {
         const userInfoObj = JSON.parse(userinfo);
         username = userInfoObj.username;
     }
-    const [locationCoords, setLocationCoords] = useState({ lat: 0, lng: 0 });
 
     const [data, setData] = useState({
         id: "",
         name: "",
         about: "",
-        opening: "",
+        contact: "",
         location: "",
-        requirements: "",
         userid: username,
         display: "",
         banner: "",
@@ -42,7 +42,7 @@ function AddGallery() {
     });
     const [displayImage, setDisplayImage] = useState(null);
     const [bannerImage, setBannerImage] = useState(null);
-    const [galleryImages, setGalleryImages] = useState([]);
+    const [artistImages, setArtistImages] = useState([]);
     const toast = useToast();
 
     const current = new Date();
@@ -50,35 +50,6 @@ function AddGallery() {
     const handleChange = (key, value) => {
         setData({...data, [key]: value})
     }
-    const handleLocationChange = (event) => {
-        setData({ ...data, location: event.target.value });
-    };
-
-    const handleLocationBlur = () => {
-        const address = data.location;
-        // Perform the necessary logic to retrieve the coordinates for the address
-        // and update the locationCoords state variable
-        // Example: Using the Google Geocoding API
-        const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-        const geocodeApiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-            address
-        )}&key=${apiKey}`;
-
-        fetch(geocodeApiUrl)
-            .then((response) => response.json())
-            .then((mapres) => {
-                if (mapres.results.length > 0) {
-                    const location = mapres.results[0].geometry.location;
-                    setLocationCoords({ lat: location.lat, lng: location.lng });
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    };
-
-
-
 
     const handleDisplayChange = (event) => {
         const dispfile = event.target.files[0];
@@ -97,7 +68,7 @@ function AddGallery() {
 
     const handleDeleteImage = async (image, id) => {
         // Handle image deletion
-        const apiUrl = "https://api.artfinderx.com/api/deleteImage";
+        const apiUrl = "https://api.artfinderx.com/api/deleteImageArtist";
         const imageParam = encodeURIComponent(image);
         const idParam = encodeURIComponent(id);
 
@@ -141,33 +112,31 @@ function AddGallery() {
         // Handle image update
     };
 
-    //populate field for update after a gallery is chosen
+    //populate field for update after a artist is chosen
     const handleSelectChange = (event) => {
-        const selectedGalleryName = event.target.value;
-        const selectedGallery = agentgallery.find(
-            (gallery) => gallery.name === selectedGalleryName
+        const selectedArtistName = event.target.value;
+        const selectedArtist = agentartist.find(
+            (artist) => artist.name === selectedArtistName
         );
 
-        if (selectedGallery) {
+        if (selectedArtist) {
             setData({
-                name: selectedGallery.name,
-                about: selectedGallery.about,
-                opening: selectedGallery.opening,
-                location: selectedGallery.location,
-                requirements: selectedGallery.requirements,
-                userid: selectedGallery.userid,
-                id: selectedGallery.id,
+                name: selectedArtist.name,
+                about: selectedArtist.about,
+                contact: selectedArtist.contact,
+                location: selectedArtist.location,
+                userid: selectedArtist.userid,
+                id: selectedArtist.id,
             });
-            setBannerImage(selectedGallery.banner);
-            setDisplayImage(selectedGallery.display);
-            setGalleryImages(selectedGallery.images);
+            setBannerImage(selectedArtist.banner);
+            setDisplayImage(selectedArtist.display);
+            setArtistImages(selectedArtist.images);
         } else {
             setData({
                 name: "",
                 about: "",
-                opening: "",
+                contact: "",
                 location: "",
-                requirements: "",
                 id: "",
                 userid: username,
                 display: "",
@@ -178,9 +147,9 @@ function AddGallery() {
     };
 
     useEffect(() => {
-        async function fetchGalleryAgent() {
+        async function fetchArtistAgent() {
             let res = "";
-            const result = await fetch(`https://api.artfinderx.com/api/getGalleryAgent?username=${username}`, {
+            const result = await fetch(`https://api.artfinderx.com/api/getArtistAgent?username=${username}`, {
                 method: 'GET',
                 // body: JSON.stringify(userid),
                 headers: {
@@ -191,11 +160,11 @@ function AddGallery() {
             res = await result.json()
             console.log("200", res);
             if (res[0]) {
-                setAgentgallery(res);
+                setAgentartist(res);
             }
         }
 
-        fetchGalleryAgent();
+        fetchArtistAgent();
     }, [username]);
 
     //on update, it refreshes entire page
@@ -205,33 +174,31 @@ function AddGallery() {
         const selectedId = parseInt(params.get("id"));
         // alert(selectedId);
 
-        //console.log(25, agentgallery)
+        //console.log(25, agentartist)
         if (selectedId) {
-            // Find the selected gallery by id
-            const selectedGallery = agentgallery.find(
-                (gallery) => gallery.id === selectedId
+            // Find the selected artist by id
+            const selectedArtist = agentartist.find(
+                (artist) => artist.id === selectedId
             );
-            // console.log(27, selectedGallery);
-            if (selectedGallery) {
+            // console.log(27, selectedArtist);
+            if (selectedArtist) {
                 setData({
-                    name: selectedGallery.name,
-                    about: selectedGallery.about,
-                    opening: selectedGallery.opening,
-                    location: selectedGallery.location,
-                    requirements: selectedGallery.requirements,
-                    userid: selectedGallery.userid,
-                    id: selectedGallery.id,
+                    name: selectedArtist.name,
+                    about: selectedArtist.about,
+                    contact: selectedArtist.contact,
+                    location: selectedArtist.location,
+                    userid: selectedArtist.userid,
+                    id: selectedArtist.id,
                 });
-                setBannerImage(selectedGallery.banner);
-                setDisplayImage(selectedGallery.display);
-                setGalleryImages(selectedGallery.images);
+                setBannerImage(selectedArtist.banner);
+                setDisplayImage(selectedArtist.display);
+                setArtistImages(selectedArtist.images);
             } else {
                 setData({
                     name: "",
                     about: "",
-                    opening: "",
+                    contact: "",
                     location: "",
-                    requirements: "",
                     id: "",
                     userid: username,
                     display: "",
@@ -240,7 +207,7 @@ function AddGallery() {
                 });
             }
         }
-    }, [agentgallery]);
+    }, [agentartist]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -262,7 +229,7 @@ function AddGallery() {
         try {
 
 
-            const response = await fetch('https://api.artfinderx.com/api/addGallery', {
+            const response = await fetch('https://api.artfinderx.com/api/addArtist', {
                 method: 'POST',
                 body: formData,
                 // headers: { 'Content-Type': 'application/json' },
@@ -308,7 +275,7 @@ function AddGallery() {
                 {/*<Image src="https://picsum.photos/id/78/1200/400/?blur=4" alt="Hero Image" objectFit="cover" w="100%" h="400px" />*/}
                 <Box maxW="800px" mx="auto" px={6} py={24} position="absolute" bottom="0" left="0" right="0" zIndex="1">
                     <Heading as="h1" size="3xl" color="white" mb={4}
-                             textAlign={{base: "center", md: "left"}}>Gallery Dashboard</Heading>
+                             textAlign={{base: "center", md: "left"}}>Artist Dashboard</Heading>
                     <Text fontWeight="bold" color="white" fontSize="xl" mb={8} textAlign={{base: "center", md: "left"}}>
                         Let the Earth know of your World of Creativity
                     </Text>
@@ -325,15 +292,15 @@ function AddGallery() {
                 <Box w={{base: "100%", sm: "100%", md: "80%", lg: "60%"}}
                 >
                     <form onSubmit={handleSubmit}>
-                        <Select placeholder="Select a gallery"
+                        <Select placeholder="Select a artist"
                                 defaultValue=""
                                 mb={10}
                                 onChange={handleSelectChange}
                         >
                             <option value="">None</option>
-                            {agentgallery.map((gallery) => (
-                                <option key={gallery.id} value={gallery.name} color="black">
-                                    {gallery.name}
+                            {agentartist.map((artist) => (
+                                <option key={artist.id} value={artist.name} color="black">
+                                    {artist.name}
                                 </option>
                             ))}
                         </Select>
@@ -346,52 +313,39 @@ function AddGallery() {
                             <FormLabel>Name:</FormLabel>
                             <Input
                                 type="text"
-                                placeholder="Enter your gallery name"
+                                placeholder="Enter your artist name"
                                 value={data.name}
                                 onChange={(event) => handleChange('name', event.target.value)}
                             />
                         </FormControl>
 
+                        <FormControl isRequired mt={4}>
+                            <FormLabel>Location:</FormLabel>
+                            <Input
+                                type="text"
+                                placeholder="Enter only your State of Residence e.g Lagos"
+                                value={data.location}
+                                onChange={(event) => handleChange('location', event.target.value)}
+                            />
+                        </FormControl>
+
                         <FormControl mt={4}>
-                            <FormLabel>About Gallery:</FormLabel>
+                            <FormLabel>About Artist:</FormLabel>
                             <Textarea
-                                placeholder="Enter some information about the gallery"
+                                placeholder="Enter some information about the artist"
                                 value={data.about}
                                 onChange={(event) => handleChange('about', event.target.value)}
                             />
                         </FormControl>
 
                         <FormControl mt={4}>
-                            <FormLabel>Opening:</FormLabel>
+                            <FormLabel>Contact:</FormLabel>
                             <Textarea
-                                placeholder="Monday - Friday: 7am - 8pm
-                                        Sat - Sun : 10am - 10pm"
-                                value={data.opening}
-                                onChange={(event) => handleChange('opening', event.target.value)}
+                                placeholder="Enter any special contact for the artist"
+                                value={data.contact}
+                                onChange={(event) => handleChange('contact', event.target.value)}
                             />
-                        </FormControl>
-
-                        <FormControl mt={4}>
-                            <FormLabel>Location:</FormLabel>
-                            <Input
-                                type="text"
-                                placeholder="Enter the gallery location"
-                                value={data.location}
-                                onChange={handleLocationChange}
-                                onBlur={handleLocationBlur}
-                            />
-                        </FormControl>
-                        <div style={{ position: 'relative', height: '400px', marginTop: '20px' }}>
-                            <GoogleMaps google={window.google} locationCoords={locationCoords} />
-                        </div>
-
-                        <FormControl mt={4}>
-                            <FormLabel>Requirements:</FormLabel>
-                            <Textarea
-                                placeholder="Enter any special requirements for the gallery"
-                                value={data.requirements}
-                                onChange={(event) => handleChange('requirements', event.target.value)}
-                            />
+                            <Text as="i"> Seperate each contact with a "-". </Text>
                         </FormControl>
 
                         <Stack spacing={4} mt={4}>
@@ -425,12 +379,12 @@ function AddGallery() {
                             </FormControl>
                             {isMobile &&
                             <FormControl>
-                                <FormLabel>Gallery Images:</FormLabel>
+                                <FormLabel>Artist Images:</FormLabel>
                                 <Stack spacing={2}>
-                                    {galleryImages.map((image, index) => (
+                                    {artistImages.map((image, index) => (
                                         <Stack key={index} direction="row" alignItems="center">
                                             <Box width="150px" height="150px" mb={10}>
-                                                <Image src={image} alt={`Gallery Image ${index}`} objectFit="cover"
+                                                <Image src={image} alt={`Artist Image ${index}`} objectFit="cover"
                                                        width="100%" height="100%"/>
                                             </Box>
                                             <Button
@@ -453,13 +407,13 @@ function AddGallery() {
                             }
                             {!isMobile &&
                             <FormControl>
-                                <FormLabel>Gallery Images:</FormLabel>
+                                <FormLabel>Artist Images:</FormLabel>
                                 <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                                    {galleryImages.map((image, index) => (
+                                    {artistImages.map((image, index) => (
                                         <GridItem key={index}>
                                             <Stack spacing={2}>
                                                 <Box width="150px" height="150px" mb={2}>
-                                                    <Image src={image} alt={`Gallery Image ${index}`} objectFit="cover"
+                                                    <Image src={image} alt={`Artist Image ${index}`} objectFit="cover"
                                                            width="100%" height="100%"/>
                                                 </Box>
                                                 <Button
@@ -488,4 +442,4 @@ function AddGallery() {
     )
 };
 
-export default AddGallery;
+export default AddArtist;

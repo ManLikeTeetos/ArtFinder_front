@@ -86,13 +86,13 @@ function Footer() {
                 </Link>
                 <Link
                     as={RouterLink}
-                    to="/nft"
+                    to="/artist"
                     color="white"
                     fontSize="16px"
                     mb="12px"
                     fontWeight="600"
                 >
-                    NFT
+                    Artist
                 </Link>
             </Flex>
 

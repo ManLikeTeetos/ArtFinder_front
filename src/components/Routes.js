@@ -4,9 +4,10 @@ import Home from '../pages/Home';
 import Gallery from '../pages/Gallery';
 import Event from '../pages/Event';
 import Sales from '../pages/Sales';
-import NFT from '../pages/NFT';
+import Artist from '../pages/Artist';
 import Faq from '../pages/Faq';
 import AddGallery from '../pages/AddGallery';
+import AddArtist from '../pages/AddArtist';
 import Finder from '../pages/Finder';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
@@ -28,9 +29,10 @@ function Routing() {
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/event" element={<Event />} />
                 <Route path="/sales" element={<Sales />} />
-                <Route path="/nft" element={<NFT />} />
+                <Route path="/artist" element={<Artist />} />
                 <Route path="/faq" element={<Faq />} />
                 <Route path="/addgallery" element={<AddGallery />} />
+                <Route path="/addartist" element={<AddArtist />} />
                 <Route path="/finder" element={<Finder />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/signin" element={<SignIn />} />
