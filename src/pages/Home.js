@@ -145,7 +145,7 @@ function Home() {
                                     Accept: 'application/json',
                                 },
                             });
-                            res_artist = await result.json();
+                            res_artist = await result_artist.json();
 
                             if (res_artist[0]) {
                                 setDatartist(res_artist);
