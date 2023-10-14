@@ -162,7 +162,7 @@ function Home() {
                 {/*<Image src="https://picsum.photos/id/78/1200/400/?blur=4" alt="Hero Image" objectFit="cover" w="100%" h="400px" />*/}
                 <Box maxW="800px" mx="auto" px={6} py={24} position="absolute" bottom="0" left="0" right="0" zIndex="1">
                     <Heading as="h1" size="3xl" color="white" mb={4} textAlign={{base: "center", md: "left"}}>Welcome to
-                        ArtFinder</Heading>
+                        ArtFinderX</Heading>
                     <Text fontWeight="bold" color="white" fontSize="xl" mb={8} textAlign={{base: "center", md: "left"}}>The
                         Art Galaxy in your palms</Text>
                 </Box>
@@ -192,11 +192,29 @@ function Home() {
                             borderColor="brown"
                             focusBorderColor="brown"
                         />
+                        <Center>
+                            <Button
+                                backgroundImage={`url(${btn_bg})`}
+                                backgroundSize="cover"
+                                backgroundPosition="center"
+                                color="white"
+                                _hover={{bg: 'brown.600'}}
+                                _active={{bg: 'brown.700'}}
+                                mt="20px"
+                                mx="auto"
+                                //ml={{base:"0px", lg: "50px"}}
+                                mb={{base: "40px", lg: "0px"}}
+                                fontSize={{base: "12px", md: "14px", lg: "16px"}}
+                                //onClick={handleStateChange}
+                            >
+                                Find
+                            </Button>
+                        </Center>
                     </Box>
                 </Center>
 
 
-                <Box py={10} mx={4} mt={10}>
+                <Box py={10} mx={4} >
                     {data.map((item) => (
                         <Box
                             key={item.id}
@@ -252,9 +270,27 @@ function Home() {
                             borderColor="brown"
                             focusBorderColor="brown"
                         />
+                        <Center>
+                            <Button
+                                backgroundImage={`url(${btn_bg})`}
+                                backgroundSize="cover"
+                                backgroundPosition="center"
+                                color="white"
+                                _hover={{bg: 'brown.600'}}
+                                _active={{bg: 'brown.700'}}
+                                mt="20px"
+                                mx="auto"
+                                //ml={{base:"0px", lg: "50px"}}
+                                mb={{base: "40px", lg: "0px"}}
+                                fontSize={{base: "12px", md: "14px", lg: "16px"}}
+                                //onClick={handleStateChange}
+                            >
+                                Find
+                            </Button>
+                        </Center>
                     </Box>
                 </Center>
-                <Box py={10} mx={20} mt={10}>
+                <Box py={10} mx={20} >
                     <Grid templateColumns="repeat(4, 1fr)" gap={6}>
                         {data.map((item) => (
                             <Box

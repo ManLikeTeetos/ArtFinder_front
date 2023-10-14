@@ -30,6 +30,7 @@ function Header({userinfo}) {
     const [isHovering, setIsHovering] = useState(false);
     const handleMouseEnter = () => setIsHovering(true);
     const handleMouseLeave = () => setIsHovering(false);
+    const externalUrl = "https://manliketeetos.github.io/ArtFinderLanding/";
     //const userinfo   = localStorage.getItem('userinfo');
     let username = "";
     let avatarSrc= "";
@@ -63,7 +64,7 @@ function Header({userinfo}) {
             opacity={0.9}
             transition="background-color 0.3s ease"
             py="10px"
-            px="15px"
+            px={{base: "15px", md: "15px", lg: "0px"}}
             maxW="100%"
             align="center"
             zIndex="2"
@@ -90,7 +91,7 @@ function Header({userinfo}) {
             </Flex>
 
             {/* Desktop menu */}
-            <Box fontSize="16px" w="70%" mx="40px" justify="center">
+            <Box fontSize="16px" w={{base: "70%", md: "70%", lg: "auto"}} mx="40px" justify="center">
                 <Stack
                     direction={isLargerThanMobile ? "row" : "column"}
                     spacing={[isLargerThanMobile ? "4" : "6", "", "6", "10"]}
@@ -105,7 +106,7 @@ function Header({userinfo}) {
                         fontSize={{base: "14px", md: "14px", lg: "16px"}}
                         h={["auto", "", "", "24px"]}
                     >
-                        ArtFinder
+                        ArtFinderX
                     </Text>
                     <Button
                         colorScheme="#4a5568"
@@ -221,6 +222,25 @@ function Header({userinfo}) {
                                 Faq
                             </Text>
                         </Link>
+                    </Button>
+                    <Button
+                        as="a"
+                        href={externalUrl}
+                        colorScheme="#4a5568"
+                        variant="link"
+                        fontSize={{base: "14px", md: "14px", lg: "16px"}}
+                        minWidth="auto"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <Text
+                            fontFamily="InterVariable,-apple-system,system-ui,sans-serif;"
+                            lineHeight="24px"
+                            color="white"
+                        >
+                            About
+                        </Text>
+
                     </Button>
                     {!userinfo &&
                     <>

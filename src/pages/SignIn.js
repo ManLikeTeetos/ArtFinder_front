@@ -93,7 +93,7 @@ function SignIn() {
                 >
 
                     <Heading size="md" textAlign="center">
-                        ArtFinder
+                        ArtFinderX
                     </Heading>
                     <FormControl>
                         <FormLabel fontSize="sm">Username or Email </FormLabel>
