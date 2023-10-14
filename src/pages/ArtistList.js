@@ -25,7 +25,7 @@ import {ArrowBackIcon, ArrowForwardIcon} from "@chakra-ui/icons";
 function Home() {
     const [data, setData] = useState([]);
 
-    ///Pagination Gallery
+    ///Pagination Artist
     const itemsPerPage = 16;
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -53,7 +53,7 @@ function Home() {
     const handleStateBlur = () => {
         currentStateRef.current = currentState;
         if(currentStateRef.current.length > 0) {
-            fetchGalleryRef();
+            fetchArtistRef();
         }
     };
     let username = "";
@@ -61,11 +61,11 @@ function Home() {
         const userInfoObj = JSON.parse(userinfo);
         username = userInfoObj.username;
     }
-    const fetchGalleryRef = async () => {
+    const fetchArtistRef = async () => {
         let res = '';
 
         // Modify the API URL to include the location parameter
-        const result = await fetch(`https://api.artfinderx.com/api/getGallery?location=${currentStateRef.current}`, {
+        const result = await fetch(`https://api.artfinderx.com/api/getArtist?location=${currentStateRef.current}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ function Home() {
         if (res[0]) {
             setData(res);
         } else {
-            alert(" Oops! No gallery or event found for this state. Keep exploring and check back soon! \n Don't worry, we're bringing you the best from your default location");
+            alert(" Oops! No artist or event found for this state. Keep exploring and check back soon! \n Don't worry, we're bringing you the best from your default location");
         }
     };
 
@@ -92,14 +92,14 @@ function Home() {
                 script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`;
                 script.async = true;
                 script.defer = true;
-                script.onload = fetchGallery;
+                script.onload = fetchArtist;
                 document.head.appendChild(script);
             } else {
-                fetchGallery();
+                fetchArtist();
             }
         };
 
-        const fetchGallery = async () => {
+        const fetchArtist = async () => {
             let item = '';
             let res = '';
 
@@ -126,7 +126,7 @@ function Home() {
                             setCurrentLocation(currentState);
 
                             // Modify the API URL to include the location parameter
-                            const result = await fetch(`https://api.artfinderx.com/api/getGallery?location=${currentState}`, {
+                            const result = await fetch(`https://api.artfinderx.com/api/getArtist?location=${currentState}`, {
                                 method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -163,12 +163,12 @@ function Home() {
     //console.log(45, data);
 
     const handleImageClick = (id) => {
-        //navigate(`/gallery/${id}`);
-        navigate('/gallery', { state: { id } });
+        //navigate(`/artist/${id}`);
+        navigate('/artist', { state: { id } });
     };
     const handleReadMore = (id) => {
         // Handle read more click event, e.g. open modal
-        navigate('/gallery', { state: { id } });
+        navigate('/artist', { state: { id } });
     };
 
     return (
@@ -204,7 +204,7 @@ function Home() {
                         Explore the Art Universe
                     </Heading>
                     <Text fontSize="lg" textAlign="center" mt={2}>
-                        Check out gallery close to your location
+                        Check out artist close to your location
                     </Text>
                 </Flex>
                 <Center mt={4}>
@@ -265,7 +265,7 @@ function Home() {
                         Explore the Art Universe
                     </Heading>
                     <Text fontSize="lg" textAlign="center" mt={2}>
-                        Check out gallery close to your location
+                        Check out artist close to your location
                     </Text>
                 </Flex>
                 <Center mt={4}>

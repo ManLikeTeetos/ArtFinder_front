@@ -15,6 +15,7 @@ import Become from '../pages/Become';
 import GalleryList from '../pages/GalleryList';
 import Footer from '../pages/Footer'; // Import the Footer component
 import UpdateUser from "../pages/UpdateUser";
+import ArtistList from "../pages/ArtistList";
 
 function Routing() {
     const location = useLocation();
@@ -38,6 +39,7 @@ function Routing() {
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/become" element={<Become />} />
                 <Route path="/gallerylist" element={<GalleryList />} />
+                <Route path="/artistlist" element={<ArtistList />} />
                 <Route path="/updateuser" element={<UpdateUser />} />
 
             </Routes>
