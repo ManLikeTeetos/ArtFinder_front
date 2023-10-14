@@ -245,21 +245,6 @@ function Artist() {
                                     </UnorderedList>
                                 </Box>
                             </Stack>
-                            {/* Map section */}
-                            {mapLoaded && (
-                                <div style={{ width: '80%', height: '400px', paddingBottom: '50px' ,display: 'flex', margin:'auto'}}
-                                     onClick={() => {
-                                         const location = data[0].location;
-                                         const encodedLocation = encodeURIComponent(location);
-                                         const url = `https://www.google.com/maps/dir/?api=1&destination=${encodedLocation}`;
-                                         window.open(url, '_blank');
-                                     }}
-                                >
-                                    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-                                        <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }} ref={mapRef} />
-                                    </div>
-                                </div>
-                            )}
                         </Box>
                     </>
                 ))}
