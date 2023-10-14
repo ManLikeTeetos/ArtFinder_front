@@ -33,7 +33,7 @@ function Header({userinfo}) {
     const externalUrl = "https://manliketeetos.github.io/ArtFinderLanding/";
     //const userinfo   = localStorage.getItem('userinfo');
     let username = "";
-    let avatarSrc= "";
+    let avatarSrc = "";
     let agent = false;
     let agent_type = "";
     if (userinfo) {
@@ -41,7 +41,7 @@ function Header({userinfo}) {
         username = userInfoObj.username;
         avatarSrc = userInfoObj.display;
         agent_type = userInfoObj.agent;
-        if(agent_type == "Y") agent = true;
+        if (agent_type == "Y") agent = true;
 
     }
     const navigate = useNavigate();
@@ -175,22 +175,41 @@ function Header({userinfo}) {
                             </Text>
                         </Link>
                     </Button>
-                    <Button
-                        colorScheme="#4a5568"
-                        variant="link"
-                        fontSize={{base: "14px", md: "14px", lg: "16px"}}
-                        minWidth="auto"
-                    >
-                        <Link to="/NFT">
-                            <Text
-                                fontFamily="InterVariable,-apple-system,system-ui,sans-serif;"
-                                lineHeight="24px"
-                                color="white"
-                            >
-                                NFT
-                            </Text>
-                        </Link>
-                    </Button>
+                    <Menu>
+                        <MenuButton
+                            as={Button}
+                            colorScheme="#4a5568"
+                            variant="link"
+                            fontSize={{base: "14px", md: "14px", lg: "16px"}}
+                            minWidth="auto"
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                            onClick={() => setIsSubMenuOpen(true)}
+                        >
+                            <Link to="/gallery">
+                                <Text
+                                    fontFamily="InterVariable,-apple-system,system-ui,sans-serif;"
+                                    lineHeight="24px"
+                                    color="white"
+                                >
+                                    Artist
+                                </Text>
+                            </Link>
+                        </MenuButton>
+                        <MenuList
+                            display={isHovering || isSubMenuOpen ? "block" : "none"}
+                            onClick={() => setIsSubMenuOpen(true)}
+                        >
+                            <MenuItem as={Link} to="/gallerylist" target="_blank" rel="noopener noreferrer">
+                                Artist List
+                            </MenuItem>
+                            {agent &&
+                            <MenuItem as={Link} to="/addartist" target="_blank" rel="noopener noreferrer">
+                                Add Artist
+                            </MenuItem>
+                            }
+                        </MenuList>
+                    </Menu>
                     <Button
                         colorScheme="#4a5568"
                         variant="link"
@@ -244,7 +263,7 @@ function Header({userinfo}) {
                     </Button>
                     {!userinfo &&
                     <>
-                        <Link to="/signin" >
+                        <Link to="/signin">
                             <Button
                                 backgroundImage={`url(${btn_bg})`}
                                 backgroundSize="cover"
@@ -252,7 +271,7 @@ function Header({userinfo}) {
                                 color="white"
                                 _hover={{bg: 'brown.600'}}
                                 _active={{bg: 'brown.700'}}
-                                ml={{base:"0px", lg: "50px"}}
+                                ml={{base: "0px", lg: "50px"}}
                                 mb={{base: "40px", lg: "0px"}}
                                 fontSize={{base: "12px", md: "14px", lg: "16px"}}
                                 my="auto"
@@ -260,7 +279,7 @@ function Header({userinfo}) {
                                 Sign In
                             </Button>
                         </Link>
-                        <Link to="/become" >
+                        <Link to="/become">
                             <Button
                                 backgroundImage={`url(${btn_bg})`}
                                 backgroundSize="cover"
@@ -270,7 +289,7 @@ function Header({userinfo}) {
                                 _active={{bg: 'brown.700'}}
                                 fontSize={{base: "12px", md: "14px", lg: "16px"}}
                             >
-                                Become an ArtFinder
+                                Register
                             </Button>
                         </Link>
                     </>
@@ -308,7 +327,7 @@ function Header({userinfo}) {
                                 onMouseLeave={handleMouseLeave}
                                 onClick={() => setIsSubMenuOpen(true)}
                             >
-                                <MenuItem as={Link} to="/updateuser" >
+                                <MenuItem as={Link} to="/updateuser">
                                     Edit Profile
                                 </MenuItem>
                                 <MenuItem onClick={Signout}>
@@ -317,11 +336,11 @@ function Header({userinfo}) {
                             </MenuList>
                         </Menu>
                         <Avatar
-                        size="md"
-                        name="User Name"
-                        src={avatarSrc}
-                        borderRadius="full"
-                        boxShadow="md"
+                            size="md"
+                            name="User Name"
+                            src={avatarSrc}
+                            borderRadius="full"
+                            boxShadow="md"
                         />
                     </>
                     }

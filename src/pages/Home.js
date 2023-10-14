@@ -8,6 +8,7 @@ import btn_bg from "../images/wood.jpg";
 
 function Home() {
     const [data, setData] = useState([]);
+    const [datartist, setDatartist] = useState([]);
     const [isMobile] = useMediaQuery('(max-width: 767px)');
     const navigate   = useNavigate();
     const userinfo   = localStorage.getItem('userinfo');
@@ -22,6 +23,7 @@ function Home() {
         currentStateRef.current = currentState;
         if(currentStateRef.current.length > 0) {
             fetchGalleryRef();
+            fetchArtistRef();
         }
     };
     let username = "";
@@ -52,6 +54,29 @@ function Home() {
             alert(" Oops! No gallery or event found for this state. Keep exploring and check back soon! \n Don't worry, we're bringing you the best from your default location");
         }
     };
+    const fetchArtistRef = async () => {
+        let res = '';
+        if(currentStateRef.current.length < 0){
+            currentStateRef.current = "Lagos";
+        }
+
+        // Modify the API URL to include the location parameter
+        const result = await fetch(`https://api.artfinderx.com/api/getArtist?location=${currentStateRef.current}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+        });
+
+        res = await result.json();
+
+        if (res[0]) {
+            setDatartist(res);
+        } else {
+            alert(" Oops! No Artist or event found for this state. Keep exploring and check back soon! \n Don't worry, we're bringing you the best from your default location");
+        }
+    };
 
 
 
@@ -73,6 +98,7 @@ function Home() {
         const fetchGallery = async () => {
             let item = '';
             let res = '';
+            let res_artist = '';
 
             // Get the user's current location using the Geolocation API
             navigator.geolocation.getCurrentPosition(
@@ -110,6 +136,20 @@ function Home() {
                             if (res[0]) {
                                 setData(res);
                             }
+
+                            //get artist as well
+                            const result_artist = await fetch(`https://api.artfinderx.com/api/getArtist?location=${currentState}`,{
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    Accept: 'application/json',
+                                },
+                            });
+                            res_artist = await result.json();
+
+                            if (res_artist[0]) {
+                                setDatartist(res_artist);
+                            }
                         }
                     });
                 },
@@ -137,10 +177,16 @@ function Home() {
         //navigate(`/gallery/${id}`);
         navigate('/gallery', { state: { id } });
     };
+    const handleImageClickArtist = (id) => {
+        //navigate(`/gallery/${id}`);
+        navigate('/artist', { state: { id } });
+    };
     const handleReadMore = (id) => {
         // Handle read more click event, e.g. open modal
         navigate('/gallery', { state: { id } });
     };
+
+    console.log(35,datartist);
 
     return (
         <>
@@ -245,6 +291,45 @@ function Home() {
                         </Box>
                     ))}
                 </Box>
+                <Flex justifyContent="center" flexDirection="column" alignItems="center" mt={100}>
+                    <Heading as="h1" size="xl" textAlign="center">
+                        Explore the Artists
+                    </Heading>
+                    <Text fontSize="lg" textAlign="center" mt={2}>
+                        Check out artist close to your location
+                    </Text>
+                </Flex>
+                <Box py={10} mx={4} >
+                    {datartist.map((item) => (
+                        <Box
+                            key={item.id}
+                            bg="white"
+                            borderRadius="md"
+                            overflow="hidden"
+                            boxShadow="md"
+                            mt={10}
+                            _hover={{
+                                transform: 'scale(1.05)',
+                                transition: 'transform 0.3s ease',
+                            }}
+                        >
+                            <Image
+                                src={item.display}
+                                alt={item.name}
+                                objectFit="cover"
+                                onClick={() => handleImageClickArtist(item.id)}
+                            />
+                            <Box p={4}>
+                                <Text fontSize="xl" fontWeight="semibold">
+                                    {item.name}
+                                </Text>
+                                <Text fontSize="sm" color="gray.500">
+                                    Lagos, Nigeria
+                                </Text>
+                            </Box>
+                        </Box>
+                    ))}
+                </Box>
             </>
             }
             {!isMobile &&
@@ -309,6 +394,46 @@ function Home() {
                                     alt={item.name}
                                     objectFit="cover"
                                     onClick={() => handleImageClick(item.id)}
+                                />
+                                <Box p={4}>
+                                    <Text fontSize="xl" fontWeight="semibold">
+                                        {item.name}
+                                    </Text>
+                                    <Text fontSize="sm" color="gray.500">
+                                        Lagos, Nigeria
+                                    </Text>
+                                </Box>
+                            </Box>
+                        ))}
+                    </Grid>
+                </Box>
+                <Flex justifyContent="center" flexDirection="column" alignItems="center" mt={100}>
+                    <Heading as="h1" size="xl" textAlign="center">
+                        Explore the Artists
+                    </Heading>
+                    <Text fontSize="lg" textAlign="center" mt={2}>
+                        Check out artist close to your location
+                    </Text>
+                </Flex>
+                <Box py={10} mx={20} >
+                    <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+                        {datartist.map((item) => (
+                            <Box
+                                key={item.id}
+                                bg="white"
+                                borderRadius="md"
+                                overflow="hidden"
+                                boxShadow="md"
+                                _hover={{
+                                    transform: 'scale(1.05)',
+                                    transition: 'transform 0.3s ease',
+                                }}
+                            >
+                                <Image
+                                    src={item.display}
+                                    alt={item.name}
+                                    objectFit="cover"
+                                    onClick={() => handleImageClickArtist(item.id)}
                                 />
                                 <Box p={4}>
                                     <Text fontSize="xl" fontWeight="semibold">
