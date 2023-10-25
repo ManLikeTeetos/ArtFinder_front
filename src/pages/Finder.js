@@ -65,7 +65,7 @@ function Finder() {
     const [userExists, setUserExists] = useState(false);
     const checkUserExists = async (username) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/checkUserExists?username=${username}`);
+            const response = await fetch(`https://artfinderx.com/api/checkUserExists?username=${username}`);
 
             if (response.ok) {
                 //alert("i am here");
@@ -111,7 +111,7 @@ function Finder() {
         try {
 
 
-            const response = await fetch('http://localhost:8000/api/addUser', {
+            const response = await fetch('https://artfinderx.com/api/addUser', {
                 method: 'POST',
                 body: formData,
                 // headers: { 'Content-Type': 'application/json' },
