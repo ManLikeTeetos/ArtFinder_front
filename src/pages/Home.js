@@ -82,7 +82,7 @@ function Home() {
         }
 
         // Modify the API URL to include the location parameter
-        const result = await fetch(`https://api.arthpathfinder.com/api/getGallery?location=${currentStateRef.current}`, {
+        const result = await fetch(`https://api.artpathfinder.com/api/getGallery?location=${currentStateRef.current}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ function Home() {
         }
 
         // Modify the API URL to include the location parameter
-        const result = await fetch(`https://api.arthpathfinder.com/api/getArtist?location=${currentStateRef.current}`, {
+        const result = await fetch(`https://api.artpathfinder.com/api/getArtist?location=${currentStateRef.current}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -167,7 +167,7 @@ function Home() {
                             setCurrentLocation(currentState);
 
                             // Modify the API URL to include the location parameter
-                            const result = await fetch(`https://api.arthpathfinder.com/api/getGallery?location=${currentState}`, {
+                            const result = await fetch(`https://api.artpathfinder.com/api/getGallery?location=${currentState}`, {
                                 method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -182,7 +182,7 @@ function Home() {
                             }
 
                             //get artist as well
-                            const result_artist = await fetch(`https://api.arthpathfinder.com/api/getArtist?location=${currentState}`,{
+                            const result_artist = await fetch(`https://api.artpathfinder.com/api/getArtist?location=${currentState}`,{
                                 method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json',

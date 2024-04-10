@@ -24,7 +24,7 @@ function SignIn() {
             formData.append(key, data[key]);
         }
         try {
-            const response = await fetch('https://api.arthpathfinder.com/api/signIn', {
+            const response = await fetch('https://api.artpathfinder.com/api/signIn', {
                 method: 'POST',
                 body: formData,
                 // headers: { 'Content-Type': 'application/json' },
