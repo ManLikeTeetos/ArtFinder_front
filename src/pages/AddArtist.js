@@ -68,7 +68,7 @@ function AddArtist() {
 
     const handleDeleteImage = async (image, id) => {
         // Handle image deletion
-        const apiUrl = "https://api.artfinderx.com/api/deleteImageArtist";
+        const apiUrl = "https://api.artpathfinder.com/api/deleteImageArtist";
         const imageParam = encodeURIComponent(image);
         const idParam = encodeURIComponent(id);
 
@@ -149,7 +149,7 @@ function AddArtist() {
     useEffect(() => {
         async function fetchArtistAgent() {
             let res = "";
-            const result = await fetch(`https://api.artfinderx.com/api/getArtistAgent?username=${username}`, {
+            const result = await fetch(`https://api.artpathfinder.com/api/getArtistAgent?username=${username}`, {
                 method: 'GET',
                 // body: JSON.stringify(userid),
                 headers: {
@@ -229,7 +229,7 @@ function AddArtist() {
         try {
 
 
-            const response = await fetch('https://api.artfinderx.com/api/addArtist', {
+            const response = await fetch('https://api.artpathfinder.com/api/addArtist', {
                 method: 'POST',
                 body: formData,
                 // headers: { 'Content-Type': 'application/json' },

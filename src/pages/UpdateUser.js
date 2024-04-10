@@ -80,7 +80,7 @@ function UpdateUser() {
     const [userExists, setUserExists] = useState(false);
     const checkUserExists = async (username) => {
         try {
-            const response = await fetch(`https://api.artfinderx.com/api/checkUserExists?username=${username}`);
+            const response = await fetch(`https://api.artpathfinder.com/api/checkUserExists?username=${username}`);
 
             if (response.ok) {
                 //alert("i am here");
@@ -115,7 +115,7 @@ function UpdateUser() {
         }
 
         try {
-            const response = await fetch(`https://api.artfinderx.com/api/updateUser?session_username=${session_username}`, {
+            const response = await fetch(`https://api.artpathfinder.com/api/updateUser?session_username=${session_username}`, {
                 method: 'POST',
                 body: formData,
             });
@@ -156,7 +156,7 @@ function UpdateUser() {
         const fetchUserData = async () => {
            // alert(username);
             try {
-                const response = await fetch(`https://api.artfinderx.com/api/getUser_upd?username=${session_username}`);
+                const response = await fetch(`https://api.artpathfinder.com/api/getUser_upd?username=${session_username}`);
                 if (response.ok) {
                     const userData = await response.json();
                     setData(userData);
@@ -235,7 +235,7 @@ function UpdateUser() {
                         <Input type="email"
                                borderColor="#8B45135c"
                                bg="#80808038"
-                               placeholder="Enter your Email : artfinderx@you.com"
+                               placeholder="Enter your Email : artpathfinder@you.com"
                                value={data.email}
                                onChange={(event) => handleChange('email', event.target.value)}
                                errorBorderColor="red.300"

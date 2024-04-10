@@ -65,7 +65,7 @@ function Finder() {
     const [userExists, setUserExists] = useState(false);
     const checkUserExists = async (username) => {
         try {
-            const response = await fetch(`https://api.artfinderx.com/api/checkUserExists?username=${username}`);
+            const response = await fetch(`https://api.artpathfinder.com/api/checkUserExists?username=${username}`);
 
             if (response.ok) {
                 //alert("i am here");
@@ -111,7 +111,7 @@ function Finder() {
         try {
 
 
-            const response = await fetch('https://api.artfinderx.com/api/addUser', {
+            const response = await fetch('https://api.artpathfinder.com/api/addUser', {
                 method: 'POST',
                 body: formData,
                 // headers: { 'Content-Type': 'application/json' },
@@ -206,7 +206,7 @@ function Finder() {
                         <FormLabel>Email:</FormLabel>
                         <Input
                             type="text"
-                            placeholder="Enter your Email : artfinderx@you.com"
+                            placeholder="Enter your Email : artpathfinder@you.com"
                             value={data.email}
                             onChange={(event) => handleChange('email', event.target.value)}
                             errorBorderColor="red.300"

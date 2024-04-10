@@ -36,7 +36,7 @@ function Artist() {
         async function fetchArtist() {
             //let item = {id}
             let res = "";
-            const result = await fetch(`https://api.artfinderx.com/api/getArtist?id=${id}`, {
+            const result = await fetch(`https://api.artpathfinder.com/api/getArtist?id=${id}`, {
                 method: 'GET',
                 //body: JSON.stringify(item),
                 headers: {
@@ -287,7 +287,7 @@ function Artist() {
                 </SimpleGrid>
 
             </Box>
-           
+
         </>
     );
 }

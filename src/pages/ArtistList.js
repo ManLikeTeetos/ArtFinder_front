@@ -65,7 +65,7 @@ function Home() {
         let res = '';
 
         // Modify the API URL to include the location parameter
-        const result = await fetch(`https://api.artfinderx.com/api/getArtist?location=${currentStateRef.current}`, {
+        const result = await fetch(`https://api.artpathfinder.com/api/getArtist?location=${currentStateRef.current}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ function Home() {
                             setCurrentLocation(currentState);
 
                             // Modify the API URL to include the location parameter
-                            const result = await fetch(`https://api.artfinderx.com/api/getArtist?location=${currentState}`, {
+                            const result = await fetch(`https://api.artpathfinder.com/api/getArtist?location=${currentState}`, {
                                 method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json',

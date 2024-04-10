@@ -28,7 +28,7 @@ function Footer() {
                     fontSize={{ base: "12px", md: "14px", lg: "24px" }}
                     mb="5px"
                 >
-                    ArtFinderX
+                    ArtPathFinder
                 </Text>
                 <Text
                     fontFamily="InterVariable,-apple-system,system-ui,sans-serif;"

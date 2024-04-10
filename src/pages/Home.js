@@ -82,7 +82,7 @@ function Home() {
         }
 
         // Modify the API URL to include the location parameter
-        const result = await fetch(`https://api.artfinderx.com/api/getGallery?location=${currentStateRef.current}`, {
+        const result = await fetch(`https://api.artpathfinder.com/api/getGallery?location=${currentStateRef.current}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ function Home() {
         }
 
         // Modify the API URL to include the location parameter
-        const result = await fetch(`https://api.artfinderx.com/api/getArtist?location=${currentStateRef.current}`, {
+        const result = await fetch(`https://api.artpathfinder.com/api/getArtist?location=${currentStateRef.current}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -167,7 +167,7 @@ function Home() {
                             setCurrentLocation(currentState);
 
                             // Modify the API URL to include the location parameter
-                            const result = await fetch(`https://api.artfinderx.com/api/getGallery?location=${currentState}`, {
+                            const result = await fetch(`https://api.artpathfinder.com/api/getGallery?location=${currentState}`, {
                                 method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -182,7 +182,7 @@ function Home() {
                             }
 
                             //get artist as well
-                            const result_artist = await fetch(`https://api.artfinderx.com/api/getArtist?location=${currentState}`,{
+                            const result_artist = await fetch(`https://api.artpathfinder.com/api/getArtist?location=${currentState}`,{
                                 method: 'GET',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -252,7 +252,7 @@ function Home() {
                 {/*<Image src="https://picsum.photos/id/78/1200/400/?blur=4" alt="Hero Image" objectFit="cover" w="100%" h="400px" />*/}
                 <Box maxW="800px" mx="auto" px={6} py={24} position="absolute" bottom="0" left="0" right="0" zIndex="1">
                     <Heading as="h1" size="3xl" color="white" mb={4} textAlign={{base: "center", md: "left"}}>Welcome to
-                        ArtFinderX</Heading>
+                        ArtPathFinder</Heading>
                     <Text fontWeight="bold" color="white" fontSize="xl" mb={8} textAlign={{base: "center", md: "left"}}>The
                         Art Galaxy in your palms</Text>
                 </Box>
