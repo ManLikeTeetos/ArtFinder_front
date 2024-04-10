@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.d1aa756d.css",
-    "main.js": "/static/js/main.7d119c69.js",
-    "static/js/787.860a6c88.chunk.js": "/static/js/787.860a6c88.chunk.js",
+    "main.css": "/static/css/main.14041375.css",
+    "main.js": "/static/js/main.421ea086.js",
+    "static/js/787.a79b522a.chunk.js": "/static/js/787.a79b522a.chunk.js",
     "static/media/agent.jpg": "/static/media/agent.8731a0323039e38958e2.jpg",
     "static/media/become2.jpeg": "/static/media/become2.d83a8c9954373804b8ec.jpeg",
     "static/media/Leonardo-Da-Vinci-Monna-Lisa.jpg": "/static/media/Leonardo-Da-Vinci-Monna-Lisa.62f9af84db722de7d28c.jpg",
@@ -18,12 +18,12 @@
     "static/media/raleway-vietnamese-400-normal.woff2": "/static/media/raleway-vietnamese-400-normal.bb6f51e1b67ec8802d57.woff2",
     "index.html": "/index.html",
     "static/media/theme.fonts": "/static/media/theme.076e9c940333e7538cc0.fonts",
-    "main.d1aa756d.css.map": "/static/css/main.d1aa756d.css.map",
-    "main.7d119c69.js.map": "/static/js/main.7d119c69.js.map",
-    "787.860a6c88.chunk.js.map": "/static/js/787.860a6c88.chunk.js.map"
+    "main.14041375.css.map": "/static/css/main.14041375.css.map",
+    "main.421ea086.js.map": "/static/js/main.421ea086.js.map",
+    "787.a79b522a.chunk.js.map": "/static/js/787.a79b522a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d1aa756d.css",
-    "static/js/main.7d119c69.js"
+    "static/css/main.14041375.css",
+    "static/js/main.421ea086.js"
   ]
 }
