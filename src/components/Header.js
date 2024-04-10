@@ -106,7 +106,7 @@ function Header({userinfo}) {
                         fontSize={{base: "14px", md: "14px", lg: "16px"}}
                         h={["auto", "", "", "24px"]}
                     >
-                        ArtFinderX
+                        ArtPathFinder
                     </Text>
                     <Button
                         colorScheme="#4a5568"

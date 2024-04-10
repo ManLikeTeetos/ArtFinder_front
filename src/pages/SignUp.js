@@ -50,7 +50,7 @@ function SignUp() {
     const [userExists, setUserExists] = useState(false);
     const checkUserExists = async (username) => {
         try {
-            const response = await fetch(`https://api.artfinderx.com/api/checkUserExists?username=${username}`);
+            const response = await fetch(`https://api.arthpathfinder.com/api/checkUserExists?username=${username}`);
 
             if (response.ok) {
                 //alert("i am here");
@@ -84,7 +84,7 @@ function SignUp() {
             formData.append(key, data[key]);
         }
         try {
-            const response = await fetch('https://api.artfinderx.com/api/addUser', {
+            const response = await fetch('https://api.arthpathfinder.com/api/addUser', {
                 method: 'POST',
                 body: formData,
 
@@ -143,7 +143,7 @@ function SignUp() {
                     boxShadow="10px 4px 20px rgba(0, 0, 0, 0.2)"
                 >
                     <Heading size="md" textAlign="center">
-                        ArtFinderX
+                        ArtPathFinder
                     </Heading>
 
                     <FormControl isRequired>
@@ -183,7 +183,7 @@ function SignUp() {
                         <Input type="email"
                                borderColor="#8B45135c"
                                bg="#80808038"
-                               placeholder="Enter your Email : artfinderx@you.com"
+                               placeholder="Enter your Email : arthpathfinder@you.com"
                                value={data.email}
                                onChange={(event) => handleChange('email', event.target.value)}
                                errorBorderColor="red.300"

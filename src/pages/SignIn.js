@@ -24,7 +24,7 @@ function SignIn() {
             formData.append(key, data[key]);
         }
         try {
-            const response = await fetch('https://api.artfinderx.com/api/signIn', {
+            const response = await fetch('https://api.arthpathfinder.com/api/signIn', {
                 method: 'POST',
                 body: formData,
                 // headers: { 'Content-Type': 'application/json' },
@@ -93,7 +93,7 @@ function SignIn() {
                 >
 
                     <Heading size="md" textAlign="center">
-                        ArtFinderX
+                        ArtPathFinder
                     </Heading>
                     <FormControl>
                         <FormLabel fontSize="sm">Username or Email </FormLabel>
