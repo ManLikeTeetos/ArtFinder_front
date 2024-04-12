@@ -19,14 +19,18 @@ import btn_sub from "../images/wood.jpg";
 
 function UpdateUser() {
     const userinfo = localStorage.getItem('userinfo');
-    let session_username = "";
-    const [avatarSrc, setAvatarSrc] = useState(""); // Initialize it with an empty string
+	//const [sessionUsername, setSessionUsername] = useState("Teetos");
+   // const [avatarSrc, setAvatarSrc] = useState(""); // Initialize it with an empty string
     const [agentgallery, setAgentgallery] = useState([]);
-    if (userinfo) {
+	let sessionUsername = "";
+	let avatarSrc = "";
+     if (userinfo) {
         const userInfoObj = JSON.parse(userinfo);
-        setAvatarSrc(userInfoObj.display);
-        session_username = userInfoObj.username;
-    }
+       avatarSrc = userInfoObj.display;
+		sessionUsername = userInfoObj.username;
+     }
+
+
 
     const navigate = useNavigate();
     const [data, setData] = useState({
@@ -38,6 +42,8 @@ function UpdateUser() {
         display: "",
     });
 
+
+
     const handleDisplayChange = (event) => {
         const dispfile = event.target.files[0];
 
@@ -45,7 +51,7 @@ function UpdateUser() {
         const tempURL = URL.createObjectURL(dispfile);
 
         setData({ ...data, display: dispfile });
-        setAvatarSrc(tempURL);
+        avatarSrc=tempURL;
     };
 
 
@@ -97,13 +103,16 @@ function UpdateUser() {
         }
     };
 
+
+
     useEffect(() => {
         if (data.username) {
             // Check for user existence when the username field changes
-           // alert(data.username)
-            if(session_username != data.username) checkUserExists(data.username);
+            if(sessionUsername !== data.username) checkUserExists(data.username);
         }
     }, [data.username]);
+
+	console.log("Test 4");
 
     const toast = useToast();
 
@@ -115,7 +124,7 @@ function UpdateUser() {
         }
 
         try {
-            const response = await fetch(`https://api.artpathfinder.com/api/updateUser?session_username=${session_username}`, {
+            const response = await fetch(`https://api.artpathfinder.com/api/updateUser?session_username=${sessionUsername}`, {
                 method: 'POST',
                 body: formData,
             });
@@ -151,12 +160,13 @@ function UpdateUser() {
         }
     };
 
+	console.log(3, sessionUsername);
     // Fetch user data and populate the form
     useEffect(() => {
         const fetchUserData = async () => {
-           // alert(username);
+
             try {
-                const response = await fetch(`https://api.artpathfinder.com/api/getUser_upd?username=${session_username}`);
+                const response = await fetch(`https://api.artpathfinder.com/api/getUser_upd?username=${sessionUsername}`);
                 if (response.ok) {
                     const userData = await response.json();
                     setData(userData);
@@ -168,8 +178,10 @@ function UpdateUser() {
             }
         };
 
-        fetchUserData();
-    }, [session_username]);
+	fetchUserData();
+
+
+   }, [sessionUsername]);
 
     return (
         <Box
